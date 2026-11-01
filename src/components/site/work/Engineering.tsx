@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { bySlug } from "@/lib/content";
+import { bySlug, interactionSamples } from "@/lib/content";
 import { Capabilities, Ctas, Meta, Sample } from "./shared";
 
 /** Bellows expansion joint, side elevation. Geometry is generic and illustrative. */
@@ -212,6 +212,41 @@ const PANELS = [
   },
 ];
 
+function SampleBom() {
+  const [quantity, setQuantity] = useState("1");
+  const count = Number(quantity);
+  const valid = Number.isInteger(count) && count >= 1 && count <= 20;
+  return (
+    <div className="sample-bom">
+      <label htmlFor="sample-assembly-count">Try a sample BOM quantity</label>
+      <input
+        id="sample-assembly-count"
+        type="number"
+        min={1}
+        max={20}
+        step={1}
+        value={quantity}
+        aria-invalid={!valid}
+        aria-describedby="sample-bom-note"
+        onChange={(event) => setQuantity(event.target.value)}
+      />
+      <p id="sample-bom-note" className="caption">
+        Choose 1–20 assemblies. Quantity multiplication only; no sizing, stress or compliance
+        calculation.
+      </p>
+      <div className="sample-bom-output" aria-live="polite" aria-atomic="true">
+        {!valid && <p>Enter a whole number between 1 and 20.</p>}
+        {interactionSamples.bom.map((item) => (
+          <p key={item.name}>
+            <span>{item.name}</span>
+            <output>{valid ? count * item.perAssembly : "—"}</output>
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Engineering() {
   const p = bySlug("engineering-automation");
   const [active, setActive] = useState(0);
@@ -258,11 +293,12 @@ export function Engineering() {
                 </button>
               ))}
             </div>
-            <div id="engineering-panel" className="engineering-panel">
+            <div key={active} id="engineering-panel" className="engineering-panel panel-enter">
               <h4>{panel.t}</h4>
               <Sample>Illustrative output · not design advice</Sample>
               {panel.body}
             </div>
+            <SampleBom />
           </div>
         </div>
         <div className="project-bottom">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { bySlug } from "@/lib/content";
+import { bySlug, interactionSamples } from "@/lib/content";
 import { Capabilities, Ctas, Meta, Sample } from "./shared";
 
 type Line = { no: string; desc: string; unit: string; qty: string; flag?: string };
@@ -83,64 +83,84 @@ function Table({
   decisions: Record<string, Decision>;
   onDecision: (id: string, decision: Decision) => void;
 }) {
+  const [inspected, setInspected] = useState<string | null>(null);
   return (
-    <div className="data-scroll" role="region" aria-label="Sample BOQ line items" tabIndex={0}>
-      <table className="boq-table">
-        <caption className="sr-only">
-          Illustrative bill of quantities. Validation flags are predefined sample data.
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Item</th>
-            <th scope="col">Description</th>
-            <th scope="col">Unit</th>
-            <th scope="col">Qty</th>
-            {(validate || review) && <th scope="col">Review</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {LINES.map((l) => (
-            <tr key={l.no}>
-              <th scope="row">{l.no}</th>
-              <td>{l.desc}</td>
-              <td>{l.unit}</td>
-              <td>{l.qty || "—"}</td>
-              {(validate || review) && (
-                <td>
-                  {l.flag ? (
-                    <>
-                      <span className="review-flag">{l.flag}</span>
-                      {review && (
-                        <div className="review-actions">
-                          <button
-                            type="button"
-                            aria-label={`Accept item ${l.no}`}
-                            aria-pressed={decisions[l.no] === "Accepted"}
-                            onClick={() => onDecision(l.no, "Accepted")}
-                          >
-                            Accept
-                          </button>
-                          <button
-                            type="button"
-                            aria-label={`Reject item ${l.no}`}
-                            aria-pressed={decisions[l.no] === "Rejected"}
-                            onClick={() => onDecision(l.no, "Rejected")}
-                          >
-                            Reject
-                          </button>
-                          <span role="status">{decisions[l.no] || "Awaiting review"}</span>
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    "No sample flag"
-                  )}
-                </td>
-              )}
+    <div className="boq-table-explorer">
+      <div className="data-scroll" role="region" aria-label="Sample BOQ line items" tabIndex={0}>
+        <table className="boq-table">
+          <caption className="sr-only">
+            Illustrative bill of quantities. Validation flags are predefined sample data.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Description</th>
+              <th scope="col">Unit</th>
+              <th scope="col">Qty</th>
+              {(validate || review) && <th scope="col">Review</th>}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {LINES.map((l) => (
+              <tr key={l.no}>
+                <th scope="row">{l.no}</th>
+                <td>{l.desc}</td>
+                <td>{l.unit}</td>
+                <td>{l.qty || "—"}</td>
+                {(validate || review) && (
+                  <td>
+                    {l.flag ? (
+                      <>
+                        <button
+                          type="button"
+                          className="review-flag flag-inspector"
+                          aria-expanded={inspected === l.no}
+                          aria-controls="boq-inspection"
+                          onClick={() => setInspected(inspected === l.no ? null : l.no)}
+                        >
+                          {l.flag}
+                          <span aria-hidden="true"> ↗</span>
+                        </button>
+                        {review && (
+                          <div className="review-actions">
+                            <button
+                              type="button"
+                              aria-label={`Accept item ${l.no}`}
+                              aria-pressed={decisions[l.no] === "Accepted"}
+                              onClick={() => onDecision(l.no, "Accepted")}
+                            >
+                              Accept
+                            </button>
+                            <button
+                              type="button"
+                              aria-label={`Reject item ${l.no}`}
+                              aria-pressed={decisions[l.no] === "Rejected"}
+                              onClick={() => onDecision(l.no, "Rejected")}
+                            >
+                              Reject
+                            </button>
+                            <span role="status">{decisions[l.no] || "Awaiting review"}</span>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      "No sample flag"
+                    )}
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <aside id="boq-inspection" hidden={!inspected} className="flag-detail" aria-live="polite">
+        {inspected && (
+          <div key={inspected} className="panel-enter">
+            <p className="label">Review item {inspected} / predefined sample flag</p>
+            <p>{interactionSamples.boqNotes[inspected]}</p>
+          </div>
+        )}
+      </aside>
     </div>
   );
 }
@@ -196,7 +216,7 @@ export function BOQ() {
               <span className="label">BOQ / Civil works</span>
               <Sample>Illustrative sample</Sample>
             </div>
-            <div id="boq-panel">
+            <div key={stage} id="boq-panel" className="panel-enter">
               <h4 className="boq-stage-title">{STAGES[stage]}</h4>
               {stage < 2 ? (
                 <Original marks={stage === 1} />

@@ -89,7 +89,12 @@ export function MOS() {
                 </button>
               ))}
             </div>
-            <div id="module-detail" className="module-detail">
+            <div
+              key={active}
+              id="module-detail"
+              className="module-detail panel-enter"
+              aria-live="polite"
+            >
               <div className="module-detail-heading">
                 <h4>{selected.name}</h4>
                 <span className="sample-label">{selected.state}</span>

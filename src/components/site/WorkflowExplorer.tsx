@@ -32,6 +32,7 @@ function OperatingModel({
         {workflowExplorer.workflows.map((w) => (
           <path
             key={w.id}
+            pathLength={1}
             className={selected === w.id ? "link-selected" : ""}
             d={`M${w.x} ${w.y + 35} V${w.y + 65} L500 250`}
           />

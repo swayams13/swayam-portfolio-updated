@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { bySlug } from "@/lib/content";
+import { bySlug, interactionSamples } from "@/lib/content";
 import { Bar, Capabilities, Ctas, Frame, Meta } from "./shared";
 
-const JOBS = [
-  "J-2401 Heat exchanger",
-  "J-2402 Pressure vessel",
-  "J-2403 Expansion joint ×6",
-  "J-2404 Piping skid",
-];
-const STAGES = ["Engineering", "Procurement", "Fabrication", "Quality", "Dispatch"];
+const JOBS = interactionSamples.jobs.map((job) => `${job.id} ${job.name}`);
+const STAGES = interactionSamples.stages;
 const cell = "border-b border-border py-3";
 
 function Overview() {
+  const [selected, setSelected] = useState(0);
+  const job = interactionSamples.jobs[selected]!;
   return (
     <div className="p-6">
       <div className="label grid grid-cols-[1fr_6rem_6rem] pb-3 text-muted-foreground">
@@ -20,14 +17,42 @@ function Overview() {
         <span>Owner</span>
       </div>
       {JOBS.map((j, i) => (
-        <div key={j} className={`grid grid-cols-[1fr_6rem_6rem] items-center ${cell}`}>
+        <button
+          key={j}
+          type="button"
+          onClick={() => setSelected(i)}
+          aria-pressed={selected === i}
+          aria-controls="sample-job-detail"
+          className={`sample-job-row grid grid-cols-[1fr_6rem_6rem] items-center ${cell}`}
+        >
           <span className="text-sm text-paper">{j}</span>
-          <span className="label text-xs">{STAGES[[2, 3, 1, 4][i]!]}</span>
+          <span className="label text-xs">{STAGES[interactionSamples.jobs[i]!.stage]}</span>
           <span className="label text-xs text-muted-foreground">
-            {["Fab-A", "QC", "Purch.", "Stores"][i]}
+            {interactionSamples.jobs[i]!.owner}
           </span>
-        </div>
+        </button>
       ))}
+      <div
+        key={job.id}
+        id="sample-job-detail"
+        className="sample-job-detail panel-enter"
+        aria-live="polite"
+      >
+        <p className="label">{job.id} · illustrative stage history</p>
+        <p className="text-paper">
+          {job.name} · current owner: {job.owner}
+        </p>
+        <ol className="sample-job-stages">
+          {STAGES.map((name, i) => (
+            <li key={name} data-current={i === job.stage}>
+              <span aria-hidden="true">{i < job.stage ? "✓" : i === job.stage ? "→" : "·"}</span>
+              {name}
+              <small>{i < job.stage ? "Complete" : i === job.stage ? "Current" : "Next"}</small>
+            </li>
+          ))}
+        </ol>
+        <p className="caption">Fixed sample stages; no live production data is connected.</p>
+      </div>
     </div>
   );
 }
@@ -44,7 +69,7 @@ function Timeline() {
         <div key={j} className="grid grid-cols-[7rem_repeat(5,1fr)] items-center py-3">
           <span className="truncate text-sm text-paper">{j.split(" ")[0]}</span>
           {STAGES.map((_, k) => {
-            const at = [2, 3, 1, 4][i]!;
+            const at = interactionSamples.jobs[i]!.stage;
             return (
               <span
                 key={k}
@@ -195,7 +220,7 @@ export function Production() {
             ))}
             <p className="caption">Select a view to explore the sample workflow.</p>
           </div>
-          <div id="production-view">
+          <div key={active} id="production-view" className="panel-enter">
             <Frame path={view.path}>
               <div
                 className="data-scroll"

@@ -1,3 +1,4 @@
+import { CrossfadeImage } from "./CrossfadeImage";
 import { useState } from "react";
 import { scenes, homepageIndustries } from "@/lib/content";
 export function IndustryJourney() {
@@ -39,10 +40,13 @@ export function IndustryJourney() {
           ))}
         </div>
         <div id="industry-panel" className="industry-panel">
-          <div className="industry-visual">
-            <img src={scene.image} alt="" width={1920} height={1088} loading="lazy" />
-          </div>
-          <div className="industry-copy">
+          <CrossfadeImage src={scene.image} />
+          <div
+            key={industry.label}
+            className="industry-copy panel-enter"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <p className="eyebrow">{industry.label}</p>
             <h3>{industry.focus}</h3>
             <p>{industry.body}</p>

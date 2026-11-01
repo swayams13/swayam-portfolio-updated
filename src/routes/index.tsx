@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useSectionReveals } from "@/lib/useSectionReveals";
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Cinematic } from "@/components/site/Cinematic";
@@ -28,8 +30,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const root = useRef<HTMLDivElement>(null);
+  useSectionReveals(root);
   return (
-    <div id="top">
+    <div id="top" ref={root}>
       <Nav />
       <main id="main-content">
         <Cinematic />

@@ -670,3 +670,47 @@ export const contactDetails = {
   email: "sswayam506@gmail.com",
   discoverySubject: "20-minute discovery call — project inquiry",
 };
+
+/** Deterministic demonstration data, never evidence of client deployment. */
+export const interactionSamples = {
+  jobs: [
+    { id: "J-2401", name: "Heat exchanger", stage: 2, owner: "Fab-A" },
+    { id: "J-2402", name: "Pressure vessel", stage: 3, owner: "QC" },
+    { id: "J-2403", name: "Expansion joint ×6", stage: 1, owner: "Purch." },
+    { id: "J-2404", name: "Piping skid", stage: 4, owner: "Stores" },
+  ],
+  stages: ["Engineering", "Procurement", "Fabrication", "Quality", "Dispatch"],
+  bom: [
+    { name: "Bellows element", perAssembly: 1 },
+    { name: "End connection", perAssembly: 2 },
+    { name: "Tie rod", perAssembly: 4 },
+  ],
+  tender: [
+    {
+      clause: "4.1 Scope",
+      excerpt: "Six (6) nos. metallic bellows expansion joints",
+      field: "Quantity",
+      value: "6 nos.",
+    },
+    {
+      clause: "4.2 Design basis",
+      excerpt: "Design pressure of 10 barg and design temperature of 350 °C",
+      field: "Design conditions",
+      value: "10 barg / 350 °C",
+    },
+    {
+      clause: "4.3 Materials",
+      excerpt: "Bellows shall be SS 321",
+      field: "Bellows material",
+      value: "SS 321",
+    },
+  ],
+  boqNotes: {
+    "2.04":
+      "The sample source has no quantity. Request clarification; do not infer a quantity from another row.",
+    "2.11":
+      "Similar wording to item 2.04. Compare scope, location and inclusions before deciding whether this is a duplicate.",
+    "3.02":
+      "The stated area unit needs review against the measurement basis and scope. This sample flag is a review prompt, not an automatic correction.",
+  } as Record<string, string>,
+};

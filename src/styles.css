@@ -2685,3 +2685,374 @@ body {
     transform: translateY(-4px);
   }
 }
+
+/* Quiet interaction system: no scroll capture, no looping demos. */
+:root {
+  --motion-feedback: 180ms;
+  --motion-panel: 320ms;
+  --motion-reveal: 480ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--motion-reveal) ease,
+    transform var(--motion-reveal) var(--motion-ease);
+}
+.motion-reveal.motion-visible {
+  opacity: 1;
+  transform: none;
+}
+.panel-enter {
+  animation: panel-arrive var(--motion-panel) var(--motion-ease) both;
+}
+@keyframes panel-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.industry-visual {
+  position: relative;
+}
+.industry-visual > img {
+  position: absolute;
+  inset: 0;
+}
+.industry-image-enter {
+  animation: industry-crossfade 380ms ease both;
+}
+@keyframes industry-crossfade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.model-object,
+.model-node {
+  transition:
+    stroke 220ms ease,
+    fill 220ms ease;
+}
+.model-links path[pathLength] {
+  stroke-dasharray: 1;
+}
+.model-connected .model-links path[pathLength] {
+  animation: connection-draw 380ms var(--motion-ease) both;
+}
+.model-connected .model-links .link-selected {
+  animation: connection-draw 380ms var(--motion-ease) both;
+}
+@keyframes connection-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.module-record {
+  position: relative;
+  padding-left: 28px;
+}
+.module-record::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--copper);
+}
+.brief-demo[open] > article {
+  animation: panel-arrive 380ms var(--motion-ease) both;
+}
+.text-link {
+  text-underline-offset: 4px;
+  transition:
+    color var(--motion-feedback),
+    text-underline-offset var(--motion-feedback);
+}
+.text-link:hover,
+.text-link:focus-visible {
+  text-underline-offset: 7px;
+}
+.text-link > span[aria-hidden],
+.nav-contact > span {
+  display: inline-block;
+  transition: transform var(--motion-feedback) ease;
+}
+.text-link:hover > span[aria-hidden],
+.nav-contact:hover > span {
+  transform: translate(2px, -2px);
+}
+.button,
+.nav-contact,
+.menu-trigger {
+  transition:
+    color var(--motion-feedback),
+    background-color var(--motion-feedback),
+    border-color var(--motion-feedback),
+    box-shadow var(--motion-feedback);
+}
+.button:active:not(:disabled),
+.nav-contact:active {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+.desktop-nav a,
+.mobile-menu nav li a {
+  position: relative;
+}
+.desktop-nav a::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-feedback);
+}
+.desktop-nav a:hover::after,
+.desktop-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+.mobile-menu nav li a {
+  transition:
+    color var(--motion-feedback),
+    padding-left var(--motion-feedback);
+}
+.mobile-menu nav li a:hover,
+.mobile-menu nav li a:focus-visible {
+  padding-left: 8px;
+  color: #80502e;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #80502e;
+  outline-offset: 5px;
+}
+.dark :is(button, a, input, summary):focus-visible {
+  outline-color: #d5a17a;
+}
+.inquiry-form :is(input, textarea, select) {
+  transition:
+    border-color var(--motion-feedback),
+    background-color var(--motion-feedback);
+}
+.inquiry-error,
+.inquiry-success,
+.inquiry-draft,
+.field-error {
+  animation: panel-arrive 250ms var(--motion-ease) both;
+}
+.inquiry-form[aria-busy="true"] button[type="submit"]::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border: 1px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: inquiry-pending 800ms linear infinite;
+}
+@keyframes inquiry-pending {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.sample-job-row {
+  width: 100%;
+  text-align: left;
+  min-height: 48px;
+  padding-inline: 8px;
+  cursor: pointer;
+  transition: background-color var(--motion-feedback);
+}
+.sample-job-row:hover,
+.sample-job-row[aria-pressed="true"] {
+  background: #f2f0ea0c;
+}
+.sample-job-row[aria-pressed="true"] {
+  box-shadow: inset 2px 0 #b8794b;
+}
+.sample-job-detail {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+.sample-job-detail > p + p {
+  margin-top: 12px;
+}
+.sample-job-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-block: 20px;
+  list-style: none;
+  font-size: 12px;
+}
+.sample-job-stages li {
+  border-top: 1px solid #77858d66;
+  padding-top: 10px;
+}
+.sample-job-stages li[data-current="true"] {
+  border-color: #b8794b;
+  color: #d5a17a;
+}
+.sample-job-stages span,
+.sample-job-stages small {
+  display: block;
+  margin-bottom: 6px;
+}
+.sample-job-stages small {
+  color: #aab3b8;
+  margin-top: 6px;
+}
+.sample-bom {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #77858d55;
+}
+.sample-bom label {
+  display: block;
+  font-weight: 500;
+}
+.sample-bom input {
+  width: 100px;
+  min-height: 44px;
+  border: 1px solid #77858d;
+  padding: 10px;
+  margin-block: 12px;
+  background: transparent;
+  color: inherit;
+}
+.sample-bom-output {
+  margin-top: 16px;
+}
+.sample-bom-output > p {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 10px;
+  border-bottom: 1px solid #77858d44;
+  font-size: 14px;
+  gap: 20px;
+}
+.sample-bom output {
+  font-family: var(--font-mono);
+  color: #80502e;
+}
+.source-mapping {
+  margin-block: 24px 32px;
+  border-block: 1px solid #77858d55;
+  padding-block: 24px;
+}
+.source-mapping-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  margin-top: 16px;
+}
+.source-mapping button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+  border-left: 2px solid transparent;
+  min-height: 44px;
+  transition:
+    background-color var(--motion-feedback),
+    border-color var(--motion-feedback);
+}
+.source-mapping button small {
+  display: block;
+  font-family: var(--font-mono);
+  color: #aab3b8;
+  margin-bottom: 8px;
+}
+.source-mapping button[aria-pressed="true"] {
+  border-color: #b8794b;
+  background: #f2f0ea0a;
+}
+#mapped-requirement {
+  padding: 16px;
+  align-self: center;
+}
+#mapped-requirement .label {
+  color: #d5a17a;
+}
+#mapped-requirement p + p {
+  margin-top: 16px;
+}
+.flag-inspector {
+  text-align: left;
+  min-height: 44px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.flag-note {
+  max-width: 30ch;
+  white-space: normal;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px 0;
+}
+@media (max-width: 767px) {
+  .source-mapping-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .panel-enter,
+  .industry-image-enter,
+  .model-links path,
+  .brief-demo[open] > article,
+  .inquiry-error,
+  .inquiry-success,
+  .inquiry-draft,
+  .field-error,
+  .inquiry-form[aria-busy="true"] button[type="submit"]::before {
+    animation: none !important;
+  }
+  .model-links path {
+    stroke-dashoffset: 0;
+  }
+}
+/* Keyboard navigation must reveal a focused destination immediately. */
+.motion-reveal:focus-within {
+  opacity: 1;
+  transform: none;
+}
+
+.flag-detail {
+  margin: 16px;
+  padding: 20px;
+  border-left: 2px solid #80502e;
+  background: #80502e08;
+}
+.flag-detail .label {
+  color: #80502e;
+  margin-bottom: 12px;
+}
+.flag-detail p {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}

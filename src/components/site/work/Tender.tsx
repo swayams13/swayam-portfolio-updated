@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { bySlug } from "@/lib/content";
+import { bySlug, interactionSamples } from "@/lib/content";
 import { Capabilities, Ctas, Meta, Sample } from "./shared";
 
 const STEPS = ["Document", "Structured data", "Engineering review", "Quotation"];
@@ -83,7 +83,7 @@ function Structured() {
         </div>
       ))}
       <p className="label mt-4 text-xs text-muted-foreground">
-        Each field keeps a link to its source clause (4.1 – 4.5)
+        Inspect three source-to-field examples above; remaining fields are illustrative.
       </p>
     </div>
   );
@@ -159,6 +159,42 @@ function Quote() {
   );
 }
 
+function SourceMapping() {
+  const [selected, setSelected] = useState(0);
+  const mapping = interactionSamples.tender[selected]!;
+  return (
+    <div className="source-mapping">
+      <p className="label">Trace a sample requirement</p>
+      <div className="source-mapping-layout">
+        <div role="group" aria-label="Sample tender source excerpts">
+          {interactionSamples.tender.map((item, i) => (
+            <button
+              key={item.clause}
+              type="button"
+              aria-pressed={selected === i}
+              aria-controls="mapped-requirement"
+              onClick={() => setSelected(i)}
+            >
+              <small>§ {item.clause}</small>
+              <span>{item.excerpt}</span>
+            </button>
+          ))}
+        </div>
+        <div id="mapped-requirement" aria-live="polite" aria-atomic="true">
+          <div key={selected} className="panel-enter">
+            <p className="label">Mapped field / {mapping.field}</p>
+            <p>{mapping.value}</p>
+            <p className="caption">
+              Source: § {mapping.clause}. Predefined mapping, not live extraction. Human review
+              remains necessary.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const PANELS = [TenderDoc, Structured, Review, Quote];
 
 export function Tender() {
@@ -215,7 +251,8 @@ export function Tender() {
               </button>
             ))}
           </div>
-          <div id="tender-panel">
+          <SourceMapping />
+          <div key={active} id="tender-panel" className="panel-enter">
             <Panel />
           </div>
         </details>

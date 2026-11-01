@@ -5,7 +5,6 @@ export function About() {
     <section id="about" className="about-section section-space" aria-labelledby="about-title">
       <div className="shell about-layout">
         <div>
-          <p className="eyebrow">05 / The person behind the systems</p>
           <h2 id="about-title">
             An engineering mindset.
             <br />

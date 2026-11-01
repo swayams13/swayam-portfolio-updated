@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { EvidenceLabel } from "./ProjectEvidence";
-import { flagships } from "@/lib/content";
+import { flagships, homepageCopy } from "@/lib/content";
 import { StatusTag } from "./work/shared";
 import { MOS } from "./work/MOS";
 import { Production } from "./work/Production";
@@ -26,7 +26,6 @@ export function Work() {
     <section id="work" aria-labelledby="work-title">
       <div className="shell work-heading">
         <div>
-          <p className="eyebrow">03 / Selected systems</p>
           <h2 id="work-title">
             Practical ideas.
             <br />
@@ -34,11 +33,7 @@ export function Work() {
           </h2>
         </div>
         <div>
-          <p className="lead">A brief look at the systems behind the work.</p>
-          <p className="muted">
-            Delivered components, active development and prototypes are presented separately.
-            Explore a sample, then let’s discuss the requirements of your own operation.
-          </p>
+          <p className="lead">{homepageCopy.workIntro}</p>
         </div>
       </div>
       <div ref={briefs} className="shell work-briefs">

@@ -34,7 +34,7 @@ function Index() {
   useSectionReveals(root);
   return (
     <div id="top" ref={root}>
-      <Nav />
+      <Nav minimal />
       <main id="main-content">
         <Cinematic />
         <CapabilitiesSection />

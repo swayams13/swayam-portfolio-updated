@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { capabilities, engagementSteps } from "@/lib/content";
+import { capabilities, engagementSteps, homepageCopy, heroDirection } from "@/lib/content";
 export function CapabilitiesSection() {
   return (
     <section
@@ -9,16 +9,12 @@ export function CapabilitiesSection() {
     >
       <div className="shell">
         <div className="section-heading">
-          <p className="eyebrow">01 / How I can help</p>
           <h2 id="services-title">
             Your bottleneck.
             <br />
             <span className="muted">A practical way forward.</span>
           </h2>
-          <p>
-            Operational software, engineering automation and intelligent business systems—built
-            around the way your team works.
-          </p>
+          <p>{heroDirection.intro}</p>
         </div>
         <ol className="capability-list">
           {capabilities.map((c, i) => (
@@ -26,7 +22,6 @@ export function CapabilitiesSection() {
               <span className="label">0{i + 1}</span>
               <div>
                 <h3>{c.title}</h3>
-                <p className="capability-problem">{c.problem}</p>
               </div>
               <div>
                 <p>{c.description}</p>
@@ -51,16 +46,11 @@ export function Engagement() {
     >
       <div className="shell">
         <div className="section-heading">
-          <p className="eyebrow">04 / Working together</p>
           <h2 id="approach-title">
             Start with the workflow.
             <br />
             <span className="muted">Build with a clear purpose.</span>
           </h2>
-          <p>
-            Direct collaboration from the first conversation through implementation, validation and
-            deployment.
-          </p>
         </div>
         <ol className="engagement-steps">
           {engagementSteps.map((s, i) => (
@@ -72,10 +62,7 @@ export function Engagement() {
           ))}
         </ol>
         <div className="engagement-footer">
-          <p>
-            No fixed package or one-size-fits-all timeline. Scope, dependencies and support are
-            agreed around your requirements.
-          </p>
+          <p>{homepageCopy.engagementNote}</p>
           <a className="button button-light" href="#contact">
             Discuss Your Project ↗
           </a>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { contactDetails } from "@/lib/content";
+import { contactDetails, homepageCopy } from "@/lib/content";
 import {
   inquirySchema,
   inquiryText,
@@ -147,17 +147,12 @@ export function Contact() {
       <div className="shell">
         <div className="contact-layout">
           <div>
-            <p className="eyebrow">06 / Let’s talk about the work</p>
             <h2 id="contact-title">
               Complex workflow?
               <br />
               <span className="muted">Start a clear conversation.</span>
             </h2>
-            <p className="lead">
-              Tell me about your business problem and the workflow behind it. Start with a
-              complimentary 20-minute discovery call to explore fit; complex requirements may
-              benefit from a paid workflow assessment.
-            </p>
+            <p className="lead">{homepageCopy.contactIntro}</p>
             <div className="contact-options">
               <a className="text-link" href={`mailto:${contactDetails.email}`}>
                 {contactDetails.email} ↗

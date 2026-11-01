@@ -47,3 +47,11 @@ Preview: http://127.0.0.1:5177/. Screenshots: `screenshots/interactions-industry
 ## Rollback
 
 Revert this motion-system commit with a new revert commit if necessary; do not rewrite published Lovable history. The earlier hero-arrow commit and inquiry integration are independent. Preserve server environment configuration and project status/content honesty when reverting presentation changes.
+
+## Homepage copy cleanup and title-only opening
+
+Removed the hero identity row, “Independent thinking. Practical systems.”, “Physical complexity. Digital clarity.” and the scroll prompt. Following Swayam’s clarification, the opening frame now contains only the title and its decorative arrow, with brand/Menu navigation. It fills the remaining viewport beneath the header using `svh`. The operating model begins below the opening frame. The positioning sentence appears in Capabilities; hero CTA buttons are removed, while contact actions remain in the menu and later sections.
+
+Removed the navigation subtitle, numbered section eyebrows and repeated introductory paragraphs; shortened work, engagement, contact and explorer copy. Project statuses, capability limits, sample disclosures and inquiry-delivery notices remain visible. New copy stays in `src/lib/content.ts`.
+
+Desktop screenshot: `screenshots/clean-homepage-desktop.jpg`. Browser DOM confirmed a centered title, no opening-frame CTA links and the model below the 1000px fold (1049px). The final mobile viewport override did not take effect reliably in this browser session, so a final mobile screenshot is not claimed. Responsive viewport sizing is implemented in CSS. TypeScript, all 51 tests, lint (zero errors/six existing warnings), production build and generated-artifact checks passed.

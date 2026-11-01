@@ -3056,3 +3056,21 @@ summary:focus-visible {
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+/* Opening frame: headline only; all exploration and conversion starts below it. */
+.studio-hero-center {
+  min-height: calc(100svh - 88px);
+  display: grid;
+  place-items: center;
+  padding-block: 48px;
+}
+.studio-hero-center h1 {
+  width: 100%;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .studio-hero-center {
+    min-height: calc(100svh - 72px);
+    padding-block: 32px;
+  }
+}

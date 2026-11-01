@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { bySlug, workflowExplorer } from "@/lib/content";
+import { bySlug, workflowExplorer, homepageCopy } from "@/lib/content";
 import { StatusTag } from "./work/shared";
 
 /** An isometric SVG prototype: no continuous render loop or GPU dependency. */
@@ -128,14 +128,10 @@ export function WorkflowExplorer() {
       <div className="explorer-layout">
         <div className="explorer-model">
           <OperatingModel connected={connected} selected={workflow?.id} />
-          <p className="caption">Conceptual geometry · illustrative workflow</p>
+          <p className="caption">{homepageCopy.workflowSample}</p>
         </div>
         <div className="explorer-controls">
-          <p className="explorer-instruction">
-            Choose a workflow.
-            <br />
-            <span className="muted">Follow the handoff.</span>
-          </p>
+          <p className="explorer-instruction">{homepageCopy.workflowInstruction}</p>
           <div className="workflow-choices" role="group" aria-label="Explore connected workflows">
             {workflowExplorer.workflows.map((w, i) => (
               <button

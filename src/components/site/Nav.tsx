@@ -9,7 +9,7 @@ const items = [
   ["approach", "Approach"],
 ] as const;
 
-export function Nav() {
+export function Nav({ minimal = false }: { minimal?: boolean }) {
   const menu = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const close = () => menu.current?.close();
@@ -23,9 +23,7 @@ export function Nav() {
           <span className="monogram" aria-hidden="true">
             S<span>.</span>
           </span>
-          <span>
-            Swayam Singh<span className="wordmark-sub">Independent consultant</span>
-          </span>
+          <span>Swayam Singh</span>
         </Link>
         <ul className="desktop-nav">
           {items.map(([id, label]) => (
@@ -35,9 +33,11 @@ export function Nav() {
           ))}
         </ul>
         <div className="nav-actions">
-          <a href="/#contact" className="nav-contact">
-            Discuss Your Project <span aria-hidden="true">↗</span>
-          </a>
+          {!minimal && (
+            <a href="/#contact" className="nav-contact">
+              Discuss Your Project <span aria-hidden="true">↗</span>
+            </a>
+          )}
           <button
             ref={trigger}
             className="menu-trigger"

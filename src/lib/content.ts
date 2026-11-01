@@ -450,9 +450,8 @@ export const bySlug = (slug: string) => projects.find((p) => p.slug === slug)!;
 
 /** Original studio-inspired opening. No affiliations or outcomes are implied. */
 export const heroDirection = {
-  eyebrow: "Swayam Singh / AI & Solutions Consultant",
   intro:
-    "I understand operational problems, design practical solutions, and build systems that businesses can actually use.",
+    "Operational software and engineering automation for manufacturing, construction, EPC and real estate.",
 };
 
 export const capabilities = [
@@ -713,4 +712,15 @@ export const interactionSamples = {
     "3.02":
       "The stated area unit needs review against the measurement basis and scope. This sample flag is a review prompt, not an automatic correction.",
   } as Record<string, string>,
+};
+
+/** Concise homepage copy; status and sample disclosures remain with the relevant work. */
+export const homepageCopy = {
+  workIntro: "Operational platforms, engineering tools and document workflows.",
+  engagementNote: "Scope and delivery are agreed after discovery.",
+  contactIntro:
+    "Tell me what is slowing your team down. Start with a complimentary 20-minute discovery call.",
+  workflowInstruction: "Choose a workflow.",
+  workflowSample: "Illustrative workflow",
+  industrySample: "Illustrative environment.",
 };

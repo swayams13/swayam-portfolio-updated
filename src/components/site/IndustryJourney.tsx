@@ -1,6 +1,6 @@
 import { CrossfadeImage } from "./CrossfadeImage";
 import { useState } from "react";
-import { scenes, homepageIndustries } from "@/lib/content";
+import { scenes, homepageIndustries, homepageCopy } from "@/lib/content";
 export function IndustryJourney() {
   const [active, setActive] = useState(0);
   const industry = homepageIndustries[active]!;
@@ -9,16 +9,11 @@ export function IndustryJourney() {
     <section id="industries" className="industry-section" aria-labelledby="industry-title">
       <div className="shell">
         <div className="section-heading">
-          <p className="eyebrow">02 / Industry context</p>
           <h2 id="industry-title">
             Different operations.
             <br />
             <span className="muted">The same need for clarity.</span>
           </h2>
-          <p>
-            For owners, directors, plant heads and engineering teams navigating complex operational
-            work.
-          </p>
         </div>
         <div
           className="chapter-controls industry-four"
@@ -47,15 +42,12 @@ export function IndustryJourney() {
             aria-live="polite"
             aria-atomic="true"
           >
-            <p className="eyebrow">{industry.label}</p>
             <h3>{industry.focus}</h3>
             <p>{industry.body}</p>
             <a className="text-link" href={`#${industry.destination}`}>
               {industry.action} ↗
             </a>
-            <p className="caption">
-              Illustrative environment. Project status is stated with each system.
-            </p>
+            <p className="caption">{homepageCopy.industrySample}</p>
           </div>
         </div>
       </div>

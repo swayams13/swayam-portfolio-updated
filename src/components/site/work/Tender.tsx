@@ -17,7 +17,7 @@ function Hl({ children }: { children: React.ReactNode }) {
 
 function TenderDoc() {
   return (
-    <div className="mx-auto w-full max-w-[34rem] bg-paper p-10 font-serif text-[0.82rem] leading-[1.7] text-charcoal shadow-[0_50px_90px_-40px_black]">
+    <div className="mx-auto w-full max-w-[34rem] bg-card p-10 font-serif text-[0.82rem] leading-[1.7] text-foreground shadow-[0_50px_90px_-40px_black]">
       <p className="label text-xs text-muted-foreground">
         Sample tender — illustrative, not a real enquiry
       </p>

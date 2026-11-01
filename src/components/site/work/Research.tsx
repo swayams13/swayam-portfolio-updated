@@ -13,7 +13,7 @@ function MethodFigure() {
     <figure>
       <svg
         viewBox="0 0 640 260"
-        className="h-auto w-full text-charcoal"
+        className="h-auto w-full text-foreground"
         role="img"
         aria-label="Research method diagram"
       >

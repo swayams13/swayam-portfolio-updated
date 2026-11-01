@@ -14,39 +14,39 @@ The experience should resemble an architectural monograph with useful software d
 
 ### What to preserve and change
 
-| Current evidence | Creative decision |
-|---|---|
-| `styles.css`: charcoal/paper/copper, Big Shoulders Display, Geist, Geist Mono | Retain the family resemblance; improve reading sizes, contrast and hierarchy |
-| `Cinematic.tsx`: five chapters and matched-plate reveals | Keep one concise cinematic introduction, with explicit skip/chapter controls |
-| Manufacturing/wireframe assets | Strong shared aisle/perspective reference. Rebuild registered pairs; current rasters do not establish identical geometry |
-| Construction/wire/completed assets | Strong same-corner motif. Existing floor/facade details are not guaranteed to register; commission a single source model |
-| `Engineering.tsx`: bellows drawing; `BOQ.tsx`: review steps | Use meaningful diagrams and functional sample controls as the interaction vocabulary |
-| `MOS.tsx`: 900vh tour; `Work.tsx`: repeated large exhibitions | Move depth into optional explorers/case studies; do not follow the opening with another compulsory cinematic |
-| `IntelligenceUI.tsx`, project statuses | Keep sample and implementation-state disclosure next to the visual, not hidden in a footer |
+| Current evidence                                                              | Creative decision                                                                                                        |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `styles.css`: charcoal/paper/copper, Big Shoulders Display, Geist, Geist Mono | Retain the family resemblance; improve reading sizes, contrast and hierarchy                                             |
+| `Cinematic.tsx`: five chapters and matched-plate reveals                      | Keep one concise cinematic introduction, with explicit skip/chapter controls                                             |
+| Manufacturing/wireframe assets                                                | Strong shared aisle/perspective reference. Rebuild registered pairs; current rasters do not establish identical geometry |
+| Construction/wire/completed assets                                            | Strong same-corner motif. Existing floor/facade details are not guaranteed to register; commission a single source model |
+| `Engineering.tsx`: bellows drawing; `BOQ.tsx`: review steps                   | Use meaningful diagrams and functional sample controls as the interaction vocabulary                                     |
+| `MOS.tsx`: 900vh tour; `Work.tsx`: repeated large exhibitions                 | Move depth into optional explorers/case studies; do not follow the opening with another compulsory cinematic             |
+| `IntelligenceUI.tsx`, project statuses                                        | Keep sample and implementation-state disclosure next to the visual, not hidden in a footer                               |
 
 ## 2. Color system
 
 Proposed canonical values use sRGB hex for predictable handoff; convert to OKLCH without changing the intended color when implementing current CSS variables. Existing OKLCH values are not assumed identical to these hex values.
 
-| Token | Value | Role |
-|---|---|---|
-| `surface.paper` | `#F2F0EA` | Main editorial canvas, light text on dark |
-| `surface.charcoal` | `#111417` | Cinematic canvas, primary text on light |
-| `surface.graphite` | `#17191B` | Dark demo interiors / secondary dark surface |
-| `surface.soft` | `#E6E3DA` | Secondary light sections and field background |
-| `text.light.primary` | `#111417` | Light-canvas body/headings |
-| `text.light.secondary` | `#56616A` | Supporting light-canvas text |
-| `text.dark.primary` | `#F2F0EA` | Dark-canvas body/headings |
-| `text.dark.secondary` | `#AAB3B8` | Supporting dark-canvas text |
-| `accent.copper` | `#B8794B` | Selected geometry, dark-canvas links, progress |
-| `accent.copperInk` | `#80502E` | Small links/labels on paper |
-| `accent.steel` | `#77858D` | Diagram secondary lines and decorative details; not normal small text on paper |
-| `border.light` | `#D2CFC7` | Decorative section rules on paper |
-| `border.dark` | `#3E454A` | Decorative rules on charcoal |
-| `control.border.light` | `#77858D` | Input/button boundary on paper |
-| `control.border.dark` | `#77858D` | Input/button boundary on charcoal |
-| `state.error.light/dark` | `#9B302B` / `#F0A59D` | Error text plus explicit icon/message; verify in final component context |
-| `state.success.light/dark` | `#315E47` / `#A4C6AD` | Confirmed action only; never inferred engineering validity |
+| Token                      | Value                 | Role                                                                           |
+| -------------------------- | --------------------- | ------------------------------------------------------------------------------ |
+| `surface.paper`            | `#F2F0EA`             | Main editorial canvas, light text on dark                                      |
+| `surface.charcoal`         | `#111417`             | Cinematic canvas, primary text on light                                        |
+| `surface.graphite`         | `#17191B`             | Dark demo interiors / secondary dark surface                                   |
+| `surface.soft`             | `#E6E3DA`             | Secondary light sections and field background                                  |
+| `text.light.primary`       | `#111417`             | Light-canvas body/headings                                                     |
+| `text.light.secondary`     | `#56616A`             | Supporting light-canvas text                                                   |
+| `text.dark.primary`        | `#F2F0EA`             | Dark-canvas body/headings                                                      |
+| `text.dark.secondary`      | `#AAB3B8`             | Supporting dark-canvas text                                                    |
+| `accent.copper`            | `#B8794B`             | Selected geometry, dark-canvas links, progress                                 |
+| `accent.copperInk`         | `#80502E`             | Small links/labels on paper                                                    |
+| `accent.steel`             | `#77858D`             | Diagram secondary lines and decorative details; not normal small text on paper |
+| `border.light`             | `#D2CFC7`             | Decorative section rules on paper                                              |
+| `border.dark`              | `#3E454A`             | Decorative rules on charcoal                                                   |
+| `control.border.light`     | `#77858D`             | Input/button boundary on paper                                                 |
+| `control.border.dark`      | `#77858D`             | Input/button boundary on charcoal                                              |
+| `state.error.light/dark`   | `#9B302B` / `#F0A59D` | Error text plus explicit icon/message; verify in final component context       |
+| `state.success.light/dark` | `#315E47` / `#A4C6AD` | Confirmed action only; never inferred engineering validity                     |
 
 Calculated contrast for solid sRGB pairs: paper/charcoal **16.22:1**; copper/charcoal **5.17:1**; copperInk/paper **5.94:1**; secondary light text/paper **5.56:1**; secondary dark text/charcoal **8.67:1**. Copper/paper is only **3.14:1**, steel/paper **3.34:1**: do not use either for normal-size copy on paper. These are token calculations, not rendered accessibility certification. Opacity, images, blending and overlays change contrast.
 
@@ -56,16 +56,16 @@ Do not use mix-blend-difference for essential nav text. Use a solid charcoal hea
 
 Use the existing families: Big Shoulders Display 700/800 for short display headlines; Geist 400/500 for reading and controls; Geist Mono 400/500 for identifiers and metadata. No simulated light display weight, no third display/serif voice in the primary journey. Research may retain a quiet serif treatment on its own detail page.
 
-| Role | Mobile 320–767 | Tablet/static 768–1023 | Desktop 1024+ | Line height / tracking |
-|---|---|---|---|---|
-| Hero h1 | 40–56px | 64–80px | clamp(64px, 6vw, 104px) | .98 / −.01em; 700 |
-| Scene h2 | 36–48px | 48–64px | clamp(52px, 5vw, 80px) | 1.0 / −.005em; 700 |
-| Editorial h2 | 32–40px | 44–56px | 56–64px | 1.05 / −.01em; 700 |
-| Project h3 | 28–32px | 32–40px | 40–48px | 1.08; 700 |
-| Lead | 18px | 20px | 20–24px | 1.45; 400 |
-| Body | 16px | 17px | 18px | 1.6; 400 |
-| Controls/table | 14–16px | 14–16px | 14–16px | 1.4; 400/500 |
-| Metadata | 12px minimum | 12px | 12–13px | 1.5 / .08em; mono |
+| Role           | Mobile 320–767 | Tablet/static 768–1023 | Desktop 1024+           | Line height / tracking |
+| -------------- | -------------- | ---------------------- | ----------------------- | ---------------------- |
+| Hero h1        | 40–56px        | 64–80px                | clamp(64px, 6vw, 104px) | .98 / −.01em; 700      |
+| Scene h2       | 36–48px        | 48–64px                | clamp(52px, 5vw, 80px)  | 1.0 / −.005em; 700     |
+| Editorial h2   | 32–40px        | 44–56px                | 56–64px                 | 1.05 / −.01em; 700     |
+| Project h3     | 28–32px        | 32–40px                | 40–48px                 | 1.08; 700              |
+| Lead           | 18px           | 20px                   | 20–24px                 | 1.45; 400              |
+| Body           | 16px           | 17px                   | 18px                    | 1.6; 400               |
+| Controls/table | 14–16px        | 14–16px                | 14–16px                 | 1.4; 400/500           |
+| Metadata       | 12px minimum   | 12px                   | 12–13px                 | 1.5 / .08em; mono      |
 
 Uppercase only for display/short metadata; sentences and buttons use sentence case. Use real text, never burn site headings into imagery. Body measure 55–70ch; scene support copy ≤42ch; hero headline ≤18ch per line. Exact copy and preferred desktop line breaks are in the storyboard; mobile wrapping can change. Do not fix text container heights or clip ascenders/descenders.
 
@@ -75,12 +75,12 @@ Use one homepage h1 in scene 01, h2 for subsequent narrative chapters and Featur
 
 Space tokens in px: `4, 8, 12, 16, 24, 32, 48, 64, 96, 128`. Use 4/8 for controls, 16/24 for related content, 32/48 for groups, 64–128 for section separation. Avoid a universal 128px spacer after every block.
 
-| Viewport | Grid | Outer gutter | Gap | Section vertical padding |
-|---|---|---|---|---|
-| 320–767px | 4 columns | 20px (16 at 320) | 16px | 56–72px |
-| 768–1023px | 8 columns | 32px | 24px | 80px |
-| 1024–1599px | 12 columns | 40px | 24px | 96px |
-| 1600px+ | 12 columns, content max 1440px | centered, ≥48px | 32px | 112–128px |
+| Viewport    | Grid                           | Outer gutter     | Gap  | Section vertical padding |
+| ----------- | ------------------------------ | ---------------- | ---- | ------------------------ |
+| 320–767px   | 4 columns                      | 20px (16 at 320) | 16px | 56–72px                  |
+| 768–1023px  | 8 columns                      | 32px             | 24px | 80px                     |
+| 1024–1599px | 12 columns                     | 40px             | 24px | 96px                     |
+| 1600px+     | 12 columns, content max 1440px | centered, ≥48px  | 32px | 112–128px                |
 
 Full-bleed cinematic imagery may extend beyond the content grid. Reference storyboard canvas: 1920×1080. Keep upper 88px clear for nav, lower 88px clear for chapter controls. Editorial content after scene 05 returns to the same left text/grid axis. No arbitrary extra-wide project cards or floating panels outside these alignments.
 
@@ -99,17 +99,17 @@ Full-bleed cinematic imagery may extend beyond the content grid. Reference story
 
 ## 6. Interaction states and priority
 
-| State | Visual behavior | Input / accessibility contract |
-|---|---|---|
-| Default | Clear boundary or underlined text | Accessible name describes destination/action |
-| Hover | CopperInk on paper/copper on dark; subtle rule emphasis | Never the sole way to reveal required content |
-| Focus-visible | 2px high-contrast outline + 3px offset | Paper ring on dark, charcoal ring on paper; no outline clipping |
-| Pressed | Surface change; no scale bounce | Native button/link activation |
-| Selected | Copper rule + text/aria state | State must not rely on color alone |
-| Disabled | Muted appearance + reason if needed | Actual disabled semantics; unavailable primary actions should usually be omitted |
-| Loading | Stable dimensions + “Loading…” | Named status; skeleton only where space is known |
-| Error | Message, recovery, preserved inputs | Focus error summary on submission failure; no repeated live announcements |
-| Success | Explicit accepted action | Never display form delivery success without server acknowledgment |
+| State         | Visual behavior                                         | Input / accessibility contract                                                   |
+| ------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Default       | Clear boundary or underlined text                       | Accessible name describes destination/action                                     |
+| Hover         | CopperInk on paper/copper on dark; subtle rule emphasis | Never the sole way to reveal required content                                    |
+| Focus-visible | 2px high-contrast outline + 3px offset                  | Paper ring on dark, charcoal ring on paper; no outline clipping                  |
+| Pressed       | Surface change; no scale bounce                         | Native button/link activation                                                    |
+| Selected      | Copper rule + text/aria state                           | State must not rely on color alone                                               |
+| Disabled      | Muted appearance + reason if needed                     | Actual disabled semantics; unavailable primary actions should usually be omitted |
+| Loading       | Stable dimensions + “Loading…”                          | Named status; skeleton only where space is known                                 |
+| Error         | Message, recovery, preserved inputs                     | Focus error summary on submission failure; no repeated live announcements        |
+| Success       | Explicit accepted action                                | Never display form delivery success without server acknowledgment                |
 
 **Priority 0:** read, skip, navigate, view case study, contact. **Priority 1:** one contextual scene action. **Priority 2:** optional explorer controls (departments, review decisions, drawing parameters). **Priority 3:** decorative progress and camera motion. Failure of a lower-priority layer must not block a higher one.
 
@@ -147,3 +147,21 @@ This document defines design intent; it does not approve production claims, asse
 - [ ] Static, reduced-motion, short-screen and loading-failure modes remain complete and useful.
 - [ ] Project and sample labels remain attached to the evidence; no invented metrics or implied client affiliations.
 - [ ] No full cinematic implementation or production publishing occurs before approval.
+
+## Current theme — black edition
+
+Supersedes the earlier light/dark section palette following Swayam’s request. All page backgrounds are black; slightly lifted black surfaces distinguish controls and illustrative document interfaces. The title-only opening and interactions are retained.
+
+| Role                     | Value                 |
+| ------------------------ | --------------------- |
+| Page / header            | `#000000`             |
+| Panel / field            | `#0C0C0C`             |
+| Hover / selected surface | `#141414` / `#181818` |
+| Main text                | `#F2F0EA`             |
+| Secondary text           | `#A8ADB3`             |
+| Accent / focus           | `#CF9A72`             |
+| Fine border              | White at 15%          |
+
+Light paper backgrounds and dotted page textures are removed. Root and `.dark` contexts share the same semantic tokens. SVG linework, document samples, native form controls, error feedback, server fallback page and favicon are adapted. Photographic assets remain original images; they are not inverted. Browser `theme-color` and native `color-scheme` are dark.
+
+Validation: TypeScript and 51 tests passed; lint zero errors with six existing UI Fast Refresh warnings. Vercel production build and artifact checks passed. Browser inspection confirmed black body/header/section backgrounds, light headline/model text and dark fields with light input text, with no horizontal overflow at the inspected viewport. No comprehensive contrast or screen-reader certification is claimed. Screenshot: `screenshots/black-homepage.jpg`.

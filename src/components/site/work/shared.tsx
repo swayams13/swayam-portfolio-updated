@@ -117,7 +117,7 @@ export function Frame({
   const dark = tone === "dark";
   return (
     <div
-      className={`overflow-hidden ${dark ? "dark bg-charcoal text-foreground" : "bg-card text-charcoal"} shadow-[0_40px_80px_-40px_color-mix(in_oklab,var(--charcoal)_55%,transparent)] ${className}`}
+      className={`overflow-hidden ${dark ? "dark bg-charcoal text-foreground" : "bg-card text-foreground"} shadow-[0_40px_80px_-40px_color-mix(in_oklab,var(--charcoal)_55%,transparent)] ${className}`}
     >
       <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
         <span className="label text-xs text-muted-foreground">{path}</span>

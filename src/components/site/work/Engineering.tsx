@@ -20,7 +20,7 @@ function Drawing() {
   return (
     <svg
       viewBox="0 0 1000 620"
-      className="h-auto w-full text-charcoal"
+      className="h-auto w-full text-foreground"
       role="img"
       aria-label="Illustrative engineering drawing of a bellows expansion joint"
     >

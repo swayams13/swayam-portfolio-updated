@@ -2635,3 +2635,53 @@ body {
   align-items: center;
   gap: 20px;
 }
+
+/* Headline → operating model: scroll-linked copper gesture, with static fallbacks. */
+.studio-hero {
+  position: relative;
+  isolation: isolate;
+}
+.hero-arrow-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  color: #80502e;
+  overflow: visible;
+}
+.hero-arrow-dock {
+  display: inline-block;
+  width: 42px;
+  vertical-align: middle;
+  font: 400 26px/18px var(--font-sans);
+  color: #80502e;
+}
+.hero-arrow-trail,
+.hero-arrow-head path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .hero-arrow-ready .hero-arrow-overlay {
+    display: block;
+  }
+  .hero-arrow-ready .hero-arrow-origin,
+  .hero-arrow-ready .hero-arrow-dock {
+    visibility: hidden;
+  }
+  .hero-arrow-ready:not(.hero-arrow-travelling) .hero-arrow-head {
+    animation: hero-arrow-hover 2.4s ease-in-out infinite;
+  }
+}
+@keyframes hero-arrow-hover {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}

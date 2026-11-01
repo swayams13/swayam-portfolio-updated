@@ -110,7 +110,12 @@ export function WorkflowExplorer() {
   return (
     <section className="workflow-explorer" aria-labelledby="explorer-title">
       <div className="explorer-heading">
-        <p className="label">Interactive operating model</p>
+        <p className="label">
+          <span className="hero-arrow-dock" aria-hidden="true">
+            →
+          </span>
+          Interactive operating model
+        </p>
         <span className="explorer-state">
           <span aria-hidden="true" />
           {connected ? "Connected view" : "Separate workflows"}

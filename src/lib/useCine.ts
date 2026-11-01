@@ -15,7 +15,10 @@ export type CineCtx = {
  * Loads GSAP after hydration and runs `build` only on desktop with motion allowed.
  * Everything built inside is reverted automatically (gsap.matchMedia).
  */
-export function useCine(ref: RefObject<HTMLElement | null>, build: (ctx: CineCtx) => void) {
+export function useCine(
+  ref: RefObject<HTMLElement | null>,
+  build: (ctx: CineCtx) => void | (() => void),
+) {
   useEffect(() => {
     let cancelled = false;
     let revert: (() => void) | undefined;

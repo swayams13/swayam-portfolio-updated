@@ -1,15 +1,17 @@
 import { Link } from "@tanstack/react-router";
+import { AccessibleModal } from "@/components/design-system";
 import { useRef } from "react";
 
 const items = [
   ["work", "Selected work"],
+  ["advisor", "Solutions Advisor"],
   ["industries", "Industries"],
-  ["services", "Capabilities"],
+  ["services", "Intended benefits"],
   ["about", "About"],
   ["approach", "Approach"],
 ] as const;
 
-export function Nav({ minimal = false }: { minimal?: boolean }) {
+export function Navigation({ minimal = false }: { minimal?: boolean }) {
   const menu = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const close = () => menu.current?.close();
@@ -19,7 +21,7 @@ export function Nav({ minimal = false }: { minimal?: boolean }) {
         Skip to content
       </a>
       <nav className="shell nav-inner" aria-label="Primary">
-        <Link to="/" className="wordmark" aria-label="Swayam Singh — home">
+        <Link to="/" className="wordmark" aria-label="S. Swayam Singh — home">
           <span className="monogram" aria-hidden="true">
             S<span>.</span>
           </span>
@@ -28,7 +30,7 @@ export function Nav({ minimal = false }: { minimal?: boolean }) {
         <ul className="desktop-nav">
           {items.map(([id, label]) => (
             <li key={id}>
-              <a href={`/#${id}`}>{label}</a>
+              <a href={id === "advisor" ? "/advisor" : `/#${id}`}>{label}</a>
             </li>
           ))}
         </ul>
@@ -50,7 +52,7 @@ export function Nav({ minimal = false }: { minimal?: boolean }) {
           </button>
         </div>
       </nav>
-      <dialog
+      <AccessibleModal
         ref={menu}
         id="mobile-menu"
         className="mobile-menu"
@@ -72,7 +74,7 @@ export function Nav({ minimal = false }: { minimal?: boolean }) {
           <ul>
             {items.map(([id, label], i) => (
               <li key={id}>
-                <a href={`/#${id}`} onClick={close}>
+                <a href={id === "advisor" ? "/advisor" : `/#${id}`} onClick={close}>
                   <span className="label">0{i + 1}</span>
                   {label}
                   <span aria-hidden="true">↗</span>
@@ -84,7 +86,9 @@ export function Nav({ minimal = false }: { minimal?: boolean }) {
             Discuss Your Project ↗
           </a>
         </nav>
-      </dialog>
+      </AccessibleModal>
     </header>
   );
 }
+
+export { Navigation as Nav };

@@ -1,6 +1,12 @@
+import { boundedJson, clientKey } from "./advisor/protection.server";
+import type { InquiryGate } from "./inquiry-abuse.server";
 import { inquirySchema, inquiryText, type InquiryResult } from "@/lib/inquiry";
 
 export type DeliveryConfig = {
+  testMode?: boolean | undefined;
+  requireShared?: boolean | undefined;
+  gate?: InquiryGate | undefined;
+  rateSecret?: string | undefined;
   apiKey?: string | undefined;
   from?: string | undefined;
   to?: string | undefined;
@@ -15,14 +21,15 @@ export function deliveryReady(config: DeliveryConfig) {
   const from = config.from?.trim();
   const address = from?.match(/<([^<>]+)>$/)?.[1] ?? from;
   return Boolean(
-    config.apiKey &&
+    (config.testMode || config.apiKey) &&
     from &&
     from.length <= 300 &&
     !/[\r\n]/.test(from) &&
     address &&
     emailPattern.test(address) &&
     config.to &&
-    emailPattern.test(config.to),
+    emailPattern.test(config.to) &&
+    (!config.requireShared || (config.gate && (config.rateSecret?.length ?? 0) >= 32)),
   );
 }
 export function publicConfig(config: DeliveryConfig) {
@@ -33,38 +40,14 @@ export function publicConfig(config: DeliveryConfig) {
   } catch {
     /* Optional booking link not configured. */
   }
-  return { deliveryAvailable: deliveryReady(config), bookingUrl };
+  return {
+    deliveryAvailable: deliveryReady(config),
+    bookingUrl,
+    ...(config.testMode ? { testMode: true } : {}),
+  };
 }
 function json(body: unknown, status = 200, extra: Record<string, string> = {}) {
   return Response.json(body, { status, headers: { "Cache-Control": "no-store", ...extra } });
-}
-async function readBounded(request: Request) {
-  if (Number(request.headers.get("content-length")) > MAX_BODY) throw new Error("size");
-  const reader = request.body?.getReader();
-  if (!reader) throw new Error("body");
-  let size = 0;
-  const chunks: Uint8Array[] = [];
-  try {
-    while (true) {
-      const part = await reader.read();
-      if (part.done) break;
-      size += part.value.byteLength;
-      if (size > MAX_BODY) {
-        await reader.cancel();
-        throw new Error("size");
-      }
-      chunks.push(part.value);
-    }
-  } finally {
-    reader.releaseLock();
-  }
-  const bytes = new Uint8Array(size);
-  let offset = 0;
-  for (const chunk of chunks) {
-    bytes.set(chunk, offset);
-    offset += chunk.byteLength;
-  }
-  return JSON.parse(new TextDecoder().decode(bytes)) as unknown;
 }
 async function digest(value: string) {
   const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
@@ -112,7 +95,7 @@ export function createInquiryHandler({ config, fetcher = fetch, now = Date.now }
       );
     let raw: unknown;
     try {
-      raw = await readBounded(request);
+      raw = await boundedJson(request, MAX_BODY);
     } catch {
       return json(
         {
@@ -141,6 +124,15 @@ export function createInquiryHandler({ config, fetcher = fetch, now = Date.now }
         503,
       );
     const input = parsed.data;
+    if (input.issuedAt > now() + 60000 || now() - input.issuedAt > 20 * 60 * 60 * 1000)
+      return json(
+        {
+          ok: false,
+          message:
+            "This inquiry attempt is too old. Reload, review your brief and submit a new attempt.",
+        },
+        400,
+      );
     const payload = {
       from: config.from!,
       to: [config.to!],
@@ -150,13 +142,29 @@ export function createInquiryHandler({ config, fetcher = fetch, now = Date.now }
     };
     const hash = await digest(JSON.stringify(payload));
     const key = `inquiry/${input.requestId}/${hash}`;
-    const emailKey = await digest(input.email.toLowerCase());
+    const emailKey = config.rateSecret
+      ? await clientKey(
+          new Request(request.url, {
+            headers: { "x-vercel-forwarded-for": input.email.toLowerCase() },
+          }),
+          config.rateSecret,
+        )
+      : await digest(input.email.toLowerCase());
     const prior = accepted.get(key);
-    if (prior) return json({ ok: true, reference: prior.reference });
+    if (prior)
+      return json({
+        ok: true,
+        reference: prior.reference,
+        ...(config.testMode ? { testMode: true } : {}),
+      });
     const pending = inFlight.get(key);
     if (pending) {
       const result = await pending;
-      return json(result.body, result.status);
+      return json(
+        result.body,
+        result.status,
+        result.status === 429 ? { "Retry-After": "900" } : {},
+      );
     }
     if (
       inFlight.size >= 30 ||
@@ -173,7 +181,33 @@ export function createInquiryHandler({ config, fetcher = fetch, now = Date.now }
         { "Retry-After": "900" },
       );
     const operation = (async (): Promise<{ body: InquiryResult; status: number }> => {
+      if (config.gate) {
+        try {
+          const client = await clientKey(request, config.rateSecret!);
+          if (!(await config.gate.reserve(client, emailKey)))
+            return {
+              body: {
+                ok: false,
+                message: "Too many inquiries. Wait 15 minutes or contact me by email.",
+              },
+              status: 429,
+            };
+        } catch {
+          return {
+            body: {
+              ok: false,
+              message:
+                "Online delivery is temporarily unavailable. Your inquiry has not been sent; retry or use email.",
+            },
+            status: 503,
+          };
+        }
+      }
       try {
+        if (config.testMode) {
+          accepted.set(key, { reference: input.requestId, expires: now() + WINDOW });
+          return { body: { ok: true, reference: input.requestId, testMode: true }, status: 200 };
+        }
         const response = await fetcher("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -218,7 +252,11 @@ export function createInquiryHandler({ config, fetcher = fetch, now = Date.now }
     inFlight.set(key, operation);
     try {
       const result = await operation;
-      return json(result.body, result.status);
+      return json(
+        result.body,
+        result.status,
+        result.status === 429 ? { "Retry-After": "900" } : {},
+      );
     } finally {
       inFlight.delete(key);
     }

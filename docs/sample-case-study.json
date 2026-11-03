@@ -1,0 +1,73 @@
+{
+  "id": "production-intelligence",
+  "slug": "production-intelligence",
+  "title": "Production Intelligence Platform",
+  "kind": "industrial",
+  "industries": ["Manufacturing"],
+  "shortDescription": "A production tracking system designed to connect engineering, procurement, fabrication, quality control, and management workflows.",
+  "businessProblem": "Production progress is often tracked through separate spreadsheets and manual departmental updates. This creates difficulties in understanding job status, identifying bottlenecks, and coordinating activities.",
+  "solutionSummary": "A centralized production intelligence platform that organizes project stages, departmental workflows, and operational information.",
+  "maturityStatus": {
+    "labels": ["Active Pilot", "In Development"],
+    "summary": "Active pilot / in development, as reported in the project brief. Pilot deployment and capability scope have not been independently verified here."
+  },
+  "verifiedCapabilities": [],
+  "reportedImplementedCapabilities": [
+    "Equipment and job tracking",
+    "Production stage monitoring",
+    "Department-specific dashboards",
+    "BOM-based workflows"
+  ],
+  "unverifiedCapabilities": [
+    "Procurement visibility",
+    "Quality inspection tracking",
+    "Task ownership"
+  ],
+  "inDevelopmentCapabilities": ["Progress reporting"],
+  "plannedCapabilities": ["Operational alerts"],
+  "technologyStack": [],
+  "architectureSummary": {
+    "description": "Conceptual layers from the existing project brief. These do not establish a deployed stack or implemented integrations.",
+    "layers": [
+      "Web client",
+      "API layer",
+      "Relational database",
+      "Role-based access",
+      "Report exports"
+    ],
+    "conceptual": true
+  },
+  "screenshots": [],
+  "videoPoster": null,
+  "videoSource": null,
+  "videoCaptions": [],
+  "videoTranscript": null,
+  "verifiedOutcomes": [],
+  "limitations": [
+    "Pilot status is an authored statement; no pilot acceptance record or operating deployment evidence was supplied.",
+    "Procurement visibility, quality inspection tracking and task ownership still require scope confirmation."
+  ],
+  "caseStudySections": [
+    {
+      "id": "scope-context",
+      "title": "What this brief establishes",
+      "paragraphs": [
+        "The brief centers on equipment and job tracking, production stages, departmental views and BOM-based workflows. The portfolio sample demonstrates fixed job records and stage/owner views; it is not the pilot application or a live production feed."
+      ]
+    }
+  ],
+  "relatedProjects": ["manufacturing-operating-system", "engineering-automation"],
+  "lastVerifiedDate": null,
+  "workflow": [
+    "Project overview",
+    "Production timeline",
+    "Department dashboard",
+    "Quality workflow",
+    "Management overview"
+  ],
+  "sampleUrl": "/samples#production-intelligence-demo",
+  "assetRequirements": [
+    "Permitted pilot screenshot of job tracking and departmental views",
+    "Recording of an actual stage change and BOM handoff, with version and scope"
+  ]
+}

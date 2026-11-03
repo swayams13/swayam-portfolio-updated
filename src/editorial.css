@@ -1,0 +1,307 @@
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+.ds-container {
+  width: min(100% - 2 * var(--gutter), 1440px);
+  margin-inline: auto;
+}
+.ds-section {
+  padding-block: var(--space-section);
+  background: var(--background);
+  color: var(--foreground);
+}
+.ds-tone-warm {
+  background: var(--gradient-warm);
+}
+.ds-editorial,
+.shell .ds-editorial {
+  font: 400 var(--text-editorial)/0.98 var(--font-editorial);
+  letter-spacing: -0.035em;
+  text-transform: none;
+  margin: 0;
+  text-wrap: balance;
+}
+.ds-section-heading {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--space-12);
+  align-items: end;
+  margin-bottom: var(--space-12);
+}
+.ds-eyebrow {
+  font: 500 var(--text-small)/1.5 var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin: 0 0 var(--space-6);
+}
+.ds-heading-description {
+  max-width: 42ch;
+  color: var(--muted-foreground);
+}
+.ds-button,
+.button,
+.button-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  min-height: 48px;
+  padding: 0.875rem 1.375rem;
+  border-radius: 3px;
+  font: 600 0.875rem/1.4 var(--font-sans);
+  text-decoration: none;
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  transition:
+    transform 160ms,
+    background-color 160ms,
+    border-color 160ms;
+}
+.ds-button-secondary {
+  color: var(--foreground);
+  background: transparent;
+  border-color: var(--input);
+}
+.ds-button:hover,
+.button:hover,
+.button-light:hover {
+  background: var(--secondary);
+  color: var(--foreground);
+  border-color: var(--copper);
+  transform: translateY(-2px);
+}
+.ds-button:active,
+.button:active {
+  transform: translateY(0);
+}
+:where(button, a, summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+}
+.ds-button:disabled,
+.ds-button[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+  transform: none;
+}
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.65rem;
+  border: var(--border-fine);
+  font: 500 0.75rem/1.5 var(--font-display);
+  letter-spacing: 0.025em;
+}
+.ds-status {
+  color: var(--foreground);
+}
+.ds-status > span {
+  width: 5px;
+  height: 5px;
+  background: var(--copper);
+  flex-shrink: 0;
+}
+.ds-project-card {
+  border: var(--border-fine);
+  padding: clamp(1.25rem, 3vw, 3rem);
+  background: var(--background);
+  box-shadow: var(--shadow-soft);
+}
+.ds-copper-divider {
+  border: 0;
+  height: 1px;
+  background: var(--gradient-copper);
+  margin-block: var(--space-8);
+}
+.ds-transition {
+  height: clamp(2rem, 5vw, 5rem);
+  border-top: 1px solid var(--color-copper);
+}
+.ds-transition-to-dark {
+  background: linear-gradient(var(--color-bg), var(--color-dark));
+}
+.ds-transition-to-light {
+  background: linear-gradient(var(--color-dark), var(--color-bg));
+}
+.ds-modal {
+  color: var(--foreground);
+  background: var(--background);
+  border: var(--border-fine);
+  max-width: min(90vw, 640px);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-raised);
+}
+.ds-modal::backdrop {
+  background: #141414b3;
+}
+.ds-footer {
+  border-top: var(--border-fine);
+}
+.site-header,
+.studio-hero,
+.industry-section,
+.engineering-section,
+.research-section {
+  background: var(--background);
+  color: var(--foreground);
+}
+.site-header {
+  border-color: var(--border);
+}
+.studio-hero-center {
+  min-height: min(780px, calc(100svh - 88px));
+}
+.studio-hero-center h1 {
+  font-family: var(--font-editorial);
+  font-size: clamp(4.5rem, 12vw, 12rem);
+  line-height: 0.94;
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  color: var(--foreground);
+}
+.hero-bridge em {
+  font-family: var(--font-editorial);
+}
+.shell h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.045em;
+}
+.ds-gallery {
+  background: var(--background);
+  color: var(--foreground);
+  padding-block: var(--space-section);
+}
+.ds-gallery .work-heading {
+  padding-top: 0;
+}
+.ds-gallery .work-brief {
+  margin-bottom: var(--space-8);
+  border-color: var(--border);
+}
+.ds-gallery .brief-demo {
+  border-color: var(--border);
+}
+.engagement-section {
+  background: var(--gradient-industrial);
+  color: var(--foreground);
+}
+.dark .muted {
+  color: var(--muted-foreground);
+}
+.chapter-controls button[aria-pressed="true"],
+.workflow-choices button[aria-pressed="true"],
+.module-buttons button[aria-pressed="true"] {
+  background: var(--secondary);
+  color: var(--foreground);
+  border-color: var(--copper);
+}
+.model-object,
+.island-base {
+  fill: var(--card);
+  stroke: var(--steel);
+}
+.model-name {
+  fill: var(--foreground);
+}
+.model-number {
+  fill: var(--steel);
+}
+.model-core path {
+  fill: var(--card);
+  stroke: var(--copper);
+}
+.model-core text,
+.model-links circle,
+.model-connected .model-node {
+  fill: var(--copper);
+}
+.model-connected .model-links {
+  stroke: var(--copper);
+}
+input,
+select,
+textarea {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--input);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+::selection {
+  background: var(--color-copper-shadow);
+  color: var(--color-text-inverse);
+}
+.ds-example-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+.ds-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-block: var(--space-8);
+}
+.ds-swatch {
+  height: 100px;
+  border: var(--border-fine);
+  padding: 1rem;
+}
+@media (max-width: 767px) {
+  .ds-section-heading,
+  .ds-example-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  .ds-editorial,
+  .shell .ds-editorial {
+    font-size: clamp(3rem, 12vw, 5rem);
+  }
+  .ds-gallery .work-brief {
+    padding: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .ds-button:hover,
+  .button:hover {
+    transform: none;
+  }
+}
+
+/* Legacy sample UI follows the same semantic contrast roles on either surface. */
+.chapter-controls button[aria-pressed="true"] .label,
+.workflow-choices button[aria-pressed="true"] small,
+.sample-job-stages small,
+.source-mapping button small {
+  color: var(--muted-foreground);
+}
+.department-evidence > .label {
+  color: var(--foreground);
+}
+.sample-job-stages li[data-current="true"],
+#mapped-requirement .label {
+  color: var(--copper);
+}
+.source-mapping button[aria-pressed="true"] {
+  background: var(--secondary);
+  border-color: var(--copper);
+}
+.work-brief-1 {
+  --muted-foreground: #c0b6ad;
+  --copper: var(--color-copper-highlight);
+}

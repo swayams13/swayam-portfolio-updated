@@ -1,3 +1,4 @@
+import type { CaseStudyProject } from "./case-study";
 import s1 from "@/assets/scene-01-manufacturing.jpg";
 import s2 from "@/assets/scene-02-engineering.jpg";
 import s3 from "@/assets/scene-03-construction.jpg";
@@ -724,3 +725,385 @@ export const homepageCopy = {
   workflowSample: "Illustrative workflow",
   industrySample: "Illustrative environment.",
 };
+
+/** Phase 2: relevance mapping describes prospective applications, never deployments. */
+export const consultingIndustries = [
+  {
+    id: "manufacturing",
+    label: "Manufacturing",
+    icon: "factory",
+    title: "Bring the production picture together.",
+    copy: "Connect job information, departmental updates and engineering preparation around the work.",
+    useCases: [
+      "Production visibility",
+      "Job and stage tracking",
+      "Engineering-to-production handoffs",
+    ],
+    projectSlugs: [
+      "production-intelligence",
+      "manufacturing-operating-system",
+      "engineering-automation",
+      "tender-to-quotation",
+    ],
+  },
+  {
+    id: "epc",
+    label: "EPC & Engineering",
+    icon: "engineering",
+    title: "Give engineering work a clearer flow.",
+    copy: "Structure calculations, BOM preparation and tender review without losing the engineering judgment.",
+    useCases: [
+      "Calculation and BOM workflows",
+      "Technical document preparation",
+      "Tender and quotation review",
+    ],
+    projectSlugs: [
+      "engineering-automation",
+      "tender-to-quotation",
+      "manufacturing-operating-system",
+    ],
+  },
+  {
+    id: "construction",
+    label: "Construction",
+    icon: "construction",
+    title: "Make project documents easier to act on.",
+    copy: "Explore reviewable BOQ information and document handoffs for estimation teams.",
+    useCases: ["BOQ information review", "Quantity clarification", "Estimation document workflows"],
+    projectSlugs: ["boq-intelligence"],
+  },
+  {
+    id: "real-estate",
+    label: "Real Estate",
+    icon: "building",
+    title: "Find clarity in development information.",
+    copy: "Discuss document and operational workflows. The BOQ prototype is a relevant starting point, not a deployed property platform.",
+    useCases: [
+      "Development document review",
+      "Estimation information access",
+      "Project information handoffs",
+    ],
+    projectSlugs: ["boq-intelligence"],
+  },
+] as const;
+export type ConsultingIndustry = (typeof consultingIndustries)[number];
+export type ConsultingIndustryId = ConsultingIndustry["id"];
+export const homepageProjectPreviews: Record<
+  string,
+  {
+    challenge: string;
+    solution: string;
+    kind: "production" | "platform" | "engineering" | "tender" | "boq";
+  }
+> = {
+  "production-intelligence": {
+    challenge: "Job updates are scattered across teams and spreadsheets.",
+    solution: "A shared view of jobs, production stages and departmental information.",
+    kind: "production",
+  },
+  "manufacturing-operating-system": {
+    challenge: "Departments work from disconnected operational records.",
+    solution: "A developing platform for connected departmental workflows.",
+    kind: "platform",
+  },
+  "engineering-automation": {
+    challenge: "Skilled engineers repeat calculation and BOM preparation.",
+    solution: "Purpose-built calculation, BOM and costing workflows.",
+    kind: "engineering",
+  },
+  "tender-to-quotation": {
+    challenge: "Tender requirements need repeated review and manual transfer.",
+    solution: "A proposed document-to-specification and quotation workflow.",
+    kind: "tender",
+  },
+  "boq-intelligence": {
+    challenge: "BOQ information is difficult to extract and review consistently.",
+    solution: "A prototype for structured BOQ information and human review.",
+    kind: "boq",
+  },
+};
+export const consultingHomepage = {
+  eyebrow: "Independent AI & Solutions Consultant",
+  headline: ["Complex operations.", "Simpler systems."],
+  intro:
+    "I design AI, automation, and custom software solutions for manufacturing, construction, and real estate businesses.",
+  outcomes: [
+    "Better operational visibility",
+    "Reduced repetitive data entry",
+    "More structured engineering workflows",
+    "Faster information access",
+    "Clearer ownership and handoffs",
+  ],
+  steps: [
+    {
+      title: "Understand the workflow",
+      description: "Start with a free introductory discovery call about your team’s bottleneck.",
+    },
+    {
+      title: "Define a useful scope",
+      description:
+        "For complex needs, an optional paid workflow assessment sets out scope, architecture and phases.",
+    },
+    {
+      title: "Build and validate",
+      description: "Build in agreed phases and review working systems with the people using them.",
+    },
+    {
+      title: "Deploy and improve",
+      description: "Agree deployment, handover and the next useful improvements.",
+    },
+  ],
+  about:
+    "I’m Swayam Singh, an independent AI & Solutions Consultant. My consulting experience includes manufacturing and engineering operations in Gujarat, India.",
+  approach:
+    "I work directly with teams to understand the workflow and build around practical operating constraints.",
+};
+
+/** Phase 4 editorial stories. Legacy projects remain intact for demos and migration. */
+const caseStudyEditorial: Record<
+  string,
+  { summary: string; focus: string; limitations: string[]; assets: string[] }
+> = {
+  "production-intelligence": {
+    summary:
+      "Active pilot / in development, as reported in the project brief. Pilot deployment and capability scope have not been independently verified here.",
+    focus:
+      "The brief centers on equipment and job tracking, production stages, departmental views and BOM-based workflows. The portfolio sample demonstrates fixed job records and stage/owner views; it is not the pilot application or a live production feed.",
+    limitations: [
+      "Pilot status is an authored statement; no pilot acceptance record or operating deployment evidence was supplied.",
+      "Procurement visibility, quality inspection tracking and task ownership still require scope confirmation.",
+    ],
+    assets: [
+      "Permitted pilot screenshot of job tracking and departmental views",
+      "Recording of an actual stage change and BOM handoff, with version and scope",
+    ],
+  },
+  "engineering-automation": {
+    summary:
+      "Delivered components / ongoing development, as reported. The repository does not contain delivered tool artifacts or acceptance evidence.",
+    focus:
+      "Calculation, BOM and costing tools are reported as implemented. Technical document generation and data validation remain in development; drawing automation and CAD integration are planned. The sample BOM interaction is illustrative and does not validate engineering calculations.",
+    limitations: [
+      "No delivered calculation input/output or engineering review record has been supplied.",
+      "The portfolio does not establish calculation accuracy, engineering-code compliance or CAD integration.",
+    ],
+    assets: [
+      "Real calculation input/output and review context",
+      "Actual BOM/costing export and documentation capture, separating working and planned stages",
+    ],
+  },
+  "manufacturing-operating-system": {
+    summary:
+      "Platform in development. No complete enterprise deployment or production readiness is established.",
+    focus:
+      "The platform vision connects departments around shared operational information. Dashboard, departmental interfaces, job management and production coordination are described as in development. Documents, procurement, quality, roles and integrations remain planned.",
+    limitations: [
+      "The architecture is a system vision, not a deployed enterprise inventory.",
+      "No working-module capture or integration evidence has been supplied.",
+    ],
+    assets: [
+      "Current module capture with version and module-by-module implementation state",
+      "Permitted architecture or integration evidence for any implemented connections",
+    ],
+  },
+  "tender-to-quotation": {
+    summary:
+      "Planned / in development. Working extraction and automation scope have not been verified.",
+    focus:
+      "The proposed workflow links a source requirement, structured specifications, engineering review and a quotation draft. The portfolio maps predefined clauses to fields; it does not extract a live document or generate a commercial quotation.",
+    limitations: [
+      "Document ingestion and technical extraction are unverified, not confirmed working capabilities.",
+      "End-to-end specification, costing, quotation generation and approval remain planned.",
+    ],
+    assets: [
+      "Confirmation of built versus planned extraction stages",
+      "Permitted actual source document and generated output, if those stages work",
+    ],
+  },
+  "boq-intelligence": {
+    summary:
+      "Prototype / in development. No extraction accuracy, customer deployment or ROI is established.",
+    focus:
+      "The prototype brief focuses on ingestion, line-item extraction and quantity/unit information. Its portfolio sample demonstrates predefined flags and review decisions. These controls are not evidence of product extraction or validation accuracy.",
+    limitations: [
+      "Sample flags are deterministic, not measured AI results.",
+      "Classification, duplicate detection, quantity validation, review UI and export are planned in the product brief.",
+    ],
+    assets: [
+      "Actual BOQ source page and prototype output with known errors",
+      "Recording of the working validation/review stages, clearly separated from planned scope",
+    ],
+  },
+  medpulse: {
+    summary:
+      "Applied AI research. Not a clinical tool; no validated diagnostic effectiveness is claimed.",
+    focus:
+      "MedPulse explores handwriting-related features and multimodal AI for physician burnout research. The supplied application reference is 202621080973 A. Publication, attribution and methodology have not been verified from an official record in this repository; it is not presented as a granted patent.",
+    limitations: [
+      "No official application publication or attribution document was supplied.",
+      "No clinical validation or diagnostic effectiveness is established.",
+    ],
+    assets: [
+      "Official application publication and attribution record",
+      "Permitted research method, evaluation and limitations material",
+    ],
+  },
+};
+
+/** Populate only with approved real media and evidence. Legacy industrial plates are excluded. */
+export const caseStudyEvidence: Partial<
+  Record<
+    string,
+    Pick<
+      CaseStudyProject,
+      | "screenshots"
+      | "videoPoster"
+      | "videoSource"
+      | "videoCaptions"
+      | "videoTranscript"
+      | "verifiedCapabilities"
+      | "verifiedOutcomes"
+      | "lastVerifiedDate"
+      | "technologyStack"
+    >
+  >
+> = {};
+
+/** No delivered capability is promoted into verifiedCapabilities without an evidence artifact. */
+export const caseStudies: CaseStudyProject[] = projects.map((project) => {
+  const editorial = caseStudyEditorial[project.slug];
+  const sectors = consultingIndustries
+    .filter((s) => s.projectSlugs.some((slug) => slug === project.slug))
+    .map((s) => s.label);
+  return {
+    id: project.slug,
+    slug: project.slug,
+    title: project.title,
+    kind: project.tier === "research" ? "research" : "industrial",
+    industries: sectors.length ? sectors : [project.industry],
+    shortDescription: project.summary,
+    businessProblem: project.problem,
+    solutionSummary: project.approach,
+    maturityStatus: {
+      labels: project.status,
+      summary:
+        editorial?.summary ??
+        (project.slug === "workforce-resource-management"
+          ? "Development scope remains unverified."
+          : `${project.status.join(" / ")}, as reported in the brief. Product implementation evidence has not been supplied.`),
+    },
+    verifiedCapabilities: [],
+    reportedImplementedCapabilities: project.features
+      .filter((f) => f.state === "Implemented")
+      .map((f) => f.name),
+    unverifiedCapabilities: project.features
+      .filter((f) => f.state === "To verify")
+      .map((f) => f.name),
+    inDevelopmentCapabilities: project.features
+      .filter((f) => f.state === "In development")
+      .map((f) => f.name),
+    plannedCapabilities: project.features.filter((f) => f.state === "Planned").map((f) => f.name),
+    technologyStack: [],
+    architectureSummary: {
+      description:
+        "Conceptual layers from the existing project brief. These do not establish a deployed stack or implemented integrations.",
+      layers: project.architecture,
+      conceptual: true,
+    },
+    screenshots: [],
+    videoPoster: null,
+    videoSource: project.media.video ?? null,
+    videoCaptions: [],
+    videoTranscript: null,
+    verifiedOutcomes: [],
+    limitations: editorial?.limitations ?? [
+      "The authored implementation state has not been independently verified from product artifacts.",
+      "No measured outcomes or production-readiness evidence was supplied.",
+    ],
+    caseStudySections: editorial
+      ? [
+          {
+            id: project.tier === "research" ? "research-context" : "scope-context",
+            title:
+              project.tier === "research"
+                ? "Research context & attribution"
+                : "What this brief establishes",
+            paragraphs: [editorial.focus],
+          },
+        ]
+      : [],
+    relatedProjects: projects
+      .filter((p) => p.slug !== project.slug && p.tier === project.tier)
+      .slice(0, 2)
+      .map((p) => p.slug),
+    lastVerifiedDate: null,
+    workflow: project.flow,
+    sampleUrl: project.tier === "flagship" ? `/samples#${project.slug}-demo` : null,
+    assetRequirements: editorial?.assets ?? [
+      "Permitted working input/output or product screenshots",
+      "Confirmation of your contribution, implementation scope and publication permission",
+    ],
+    ...caseStudyEvidence[project.slug],
+  };
+});
+
+/** Advisor relevance vocabulary: public retrieval hints, never evidence of delivery. */
+export const advisorProjectTerms: Record<string, string[]> = {
+  "production-intelligence": [
+    "production",
+    "job tracking",
+    "stage",
+    "fabrication",
+    "bottleneck",
+    "department",
+    "plant",
+    "job status",
+  ],
+  "manufacturing-operating-system": [
+    "operating system",
+    "unified",
+    "connected departments",
+    "enterprise platform",
+    "multi organization",
+    "shared records",
+  ],
+  "engineering-automation": [
+    "engineering",
+    "calculation",
+    "bom",
+    "costing",
+    "cad",
+    "design automation",
+    "documentation",
+  ],
+  "tender-to-quotation": [
+    "tender",
+    "rfq",
+    "quotation",
+    "quote",
+    "specification",
+    "engineering sales",
+  ],
+  "boq-intelligence": [
+    "boq",
+    "bill of quantities",
+    "quantity",
+    "quantities",
+    "estimat",
+    "construction document",
+    "pdf",
+    "extraction",
+    "duplicate",
+  ],
+  "expansion-joint-automation": ["expansion joint", "bellows"],
+  "pressure-vessel-tools": ["pressure vessel", "vessel calculation"],
+  "vendor-registration": ["vendor", "registration", "supplier onboarding"],
+  "workforce-resource-management": ["workforce", "attendance", "resource allocation"],
+  medpulse: ["medpulse", "burnout", "handwriting", "physician", "patent"],
+};
+export const advisorSuggestedPrompts = [
+  "How could I get a clearer view of production jobs?",
+  "Which engineering and BOM workflows are in your portfolio?",
+  "What does the BOQ prototype actually demonstrate?",
+  "Is tender extraction implemented or planned?",
+];

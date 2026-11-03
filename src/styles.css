@@ -1,19 +1,16 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./fonts.css";
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * INDUSTRY → INTELLIGENCE design system.
- * Current palette: black #000000, surface #0C0C0C, off-white #F2F0EA,
- * secondary text #A8ADB3, copper #CF9A72.
- */
+/* Layout compatibility layer. Brand and semantic values live in theme.css. */
 
 @theme inline {
-  --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-display: "Space Grotesk", Arial, sans-serif;
+  --font-sans: "Manrope", Arial, sans-serif;
+  --font-mono: "Space Grotesk", Arial, sans-serif;
 
   --radius-sm: calc(var(--radius) - 1px);
   --radius-md: var(--radius);
@@ -45,38 +42,6 @@
   --color-copper: var(--copper);
   --color-line: var(--line);
   --color-line-dark: var(--line-dark);
-}
-
-:root,
-.dark {
-  color-scheme: dark;
-  --radius: 2px;
-  --charcoal: #000000;
-  --graphite: #0c0c0c;
-  --paper: #f2f0ea;
-  --steel: #a8adb3;
-  --copper: #cf9a72;
-  --line: #ffffff26;
-  --line-dark: #ffffff26;
-  --background: #000000;
-  --foreground: var(--paper);
-  --card: var(--graphite);
-  --card-foreground: var(--paper);
-  --popover: var(--graphite);
-  --popover-foreground: var(--paper);
-  --primary: var(--paper);
-  --primary-foreground: var(--charcoal);
-  --secondary: #141414;
-  --secondary-foreground: var(--paper);
-  --muted: #141414;
-  --muted-foreground: #a8adb3;
-  --accent: #1a1a1a;
-  --accent-foreground: var(--paper);
-  --destructive: #f28b82;
-  --destructive-foreground: var(--charcoal);
-  --border: var(--line);
-  --input: #4a4a4a;
-  --ring: var(--copper);
 }
 
 @layer base {
@@ -1566,7 +1531,7 @@ textarea {
 
 /* Studio direction: open typography and precise controls. */
 :root {
-  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", Arial, sans-serif;
 }
 body {
   background-image: none;
@@ -2653,7 +2618,7 @@ body {
     visibility: hidden;
   }
   .hero-arrow-ready:not(.hero-arrow-travelling) .hero-arrow-head {
-    animation: hero-arrow-hover 2.4s ease-in-out infinite;
+    animation: none;
   }
 }
 @keyframes hero-arrow-hover {
@@ -3055,82 +3020,39 @@ summary:focus-visible {
   }
 }
 
-/* Unified black surfaces, including controls and selection states. */
-body,
-.industry-section,
-.engineering-section,
-.research-section,
-.site-header,
-.studio-hero,
-.engagement-section,
-.mos-section,
-.tender-section,
-.diagnostic-section,
-.case-hero {
-  background-color: var(--background);
+/* Editorial Contrast integration follows legacy layout rules. */
+@import "./theme.css";
+@import "./editorial.css";
+
+@import "./homepage.css";
+
+@import "./gallery.css";
+
+@import "./case-study.css";
+
+@import "./advisor.css";
+
+.analytics-preferences {
+  border-top: var(--border-fine);
+  padding-block: 2rem;
+  font-size: 0.8125rem;
 }
-.button,
-.button-light {
-  background: var(--card);
-  color: var(--foreground);
-  border: 1px solid var(--input);
+.analytics-preferences label,
+.inquiry-consent {
+  display: flex !important;
+  align-items: start;
+  gap: 0.75rem;
 }
-.button:hover,
-.button-light:hover {
-  background: var(--secondary);
-  border-color: var(--steel);
+.analytics-preferences input,
+.inquiry-consent input {
+  width: 18px !important;
+  height: 18px;
+  min-height: 18px;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
 }
-.chapter-controls button[aria-pressed="true"],
-.workflow-choices button[aria-pressed="true"],
-.module-buttons button[aria-pressed="true"] {
-  background: #181818;
-  color: var(--foreground);
-  border-color: var(--copper);
-}
-.model-island {
-  opacity: 0.9;
-}
-.model-ground {
-  opacity: 0.16;
-}
-.model-object,
-.island-base {
-  fill: var(--card);
-  stroke: var(--steel);
-}
-.model-name {
-  fill: var(--foreground);
-}
-.model-number {
-  fill: var(--steel);
-}
-.model-core path {
-  fill: var(--card);
-  stroke: var(--copper);
-}
-.model-links circle,
-.model-connected .model-node {
-  fill: var(--copper);
-}
-.model-core text {
-  fill: var(--copper);
-}
-.model-connected .model-links,
-.model-connected .island-selected .model-object {
-  stroke: var(--copper);
-}
-input,
-select,
-textarea {
-  color: var(--foreground);
-  background-color: var(--card);
-  border-color: var(--input);
-}
-input::placeholder,
-textarea::placeholder {
-  color: #969da3;
-}
-::selection {
-  background: #cf9a7240;
-  color: #ffffff;
+.analytics-preferences p {
+  max-width: 80ch;
+  margin-top: 0.75rem;
+  color: var(--muted-foreground);
 }

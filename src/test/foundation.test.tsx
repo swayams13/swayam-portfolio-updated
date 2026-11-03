@@ -135,6 +135,7 @@ describe("Portfolio foundation interactions", () => {
     fireEvent.change(screen.getByLabelText("Business problem or proposed project"), {
       target: { value: "A sample production workflow." },
     });
+    fireEvent.click(screen.getByRole("checkbox", { name: /I consent to using/ }));
     fireEvent.submit(screen.getByRole("form", { name: "Project inquiry" }));
     expect(
       screen.getByText("Your email draft is ready. It has not been sent."),

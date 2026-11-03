@@ -10,12 +10,60 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdvisorRouteImport } from './routes/advisor'
+import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as SamplesRouteImport } from './routes/samples'
+import { Route as ApiAdvisorRouteImport } from './routes/api.advisor'
+import { Route as ApiAdvisorMetricsRouteImport } from './routes/api.advisor-metrics'
+import { Route as ApiAnalyticsRouteImport } from './routes/api.analytics'
 import { Route as ApiInquiryRouteImport } from './routes/api.inquiry'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdvisorRoute = AdvisorRouteImport.update({
+  id: '/advisor',
+  path: '/advisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignSystemRoute = DesignSystemRouteImport.update({
+  id: '/design-system',
+  path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SamplesRoute = SamplesRouteImport.update({
+  id: '/samples',
+  path: '/samples',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdvisorRoute = ApiAdvisorRouteImport.update({
+  id: '/api/advisor',
+  path: '/api/advisor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdvisorMetricsRoute = ApiAdvisorMetricsRouteImport.update({
+  id: '/api/advisor-metrics',
+  path: '/api/advisor-metrics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAnalyticsRoute = ApiAnalyticsRouteImport.update({
+  id: '/api/analytics',
+  path: '/api/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiInquiryRoute = ApiInquiryRouteImport.update({
@@ -31,30 +79,96 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/design-system': typeof DesignSystemRoute
+  '/privacy': typeof PrivacyRoute
+  '/projects': typeof ProjectsRoute
+  '/samples': typeof SamplesRoute
+  '/api/advisor': typeof ApiAdvisorRoute
+  '/api/advisor-metrics': typeof ApiAdvisorMetricsRoute
+  '/api/analytics': typeof ApiAnalyticsRoute
   '/api/inquiry': typeof ApiInquiryRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/design-system': typeof DesignSystemRoute
+  '/privacy': typeof PrivacyRoute
+  '/projects': typeof ProjectsRoute
+  '/samples': typeof SamplesRoute
+  '/api/advisor': typeof ApiAdvisorRoute
+  '/api/advisor-metrics': typeof ApiAdvisorMetricsRoute
+  '/api/analytics': typeof ApiAnalyticsRoute
   '/api/inquiry': typeof ApiInquiryRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/advisor': typeof AdvisorRoute
+  '/design-system': typeof DesignSystemRoute
+  '/privacy': typeof PrivacyRoute
+  '/projects': typeof ProjectsRoute
+  '/samples': typeof SamplesRoute
+  '/api/advisor': typeof ApiAdvisorRoute
+  '/api/advisor-metrics': typeof ApiAdvisorMetricsRoute
+  '/api/analytics': typeof ApiAnalyticsRoute
   '/api/inquiry': typeof ApiInquiryRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/inquiry' | '/work/$slug'
+  fullPaths:
+    | '/'
+    | '/advisor'
+    | '/design-system'
+    | '/privacy'
+    | '/projects'
+    | '/samples'
+    | '/api/advisor'
+    | '/api/advisor-metrics'
+    | '/api/analytics'
+    | '/api/inquiry'
+    | '/work/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/inquiry' | '/work/$slug'
-  id: '__root__' | '/' | '/api/inquiry' | '/work/$slug'
+  to:
+    | '/'
+    | '/advisor'
+    | '/design-system'
+    | '/privacy'
+    | '/projects'
+    | '/samples'
+    | '/api/advisor'
+    | '/api/advisor-metrics'
+    | '/api/analytics'
+    | '/api/inquiry'
+    | '/work/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/advisor'
+    | '/design-system'
+    | '/privacy'
+    | '/projects'
+    | '/samples'
+    | '/api/advisor'
+    | '/api/advisor-metrics'
+    | '/api/analytics'
+    | '/api/inquiry'
+    | '/work/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdvisorRoute: typeof AdvisorRoute
+  DesignSystemRoute: typeof DesignSystemRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ProjectsRoute: typeof ProjectsRoute
+  SamplesRoute: typeof SamplesRoute
+  ApiAdvisorRoute: typeof ApiAdvisorRoute
+  ApiAdvisorMetricsRoute: typeof ApiAdvisorMetricsRoute
+  ApiAnalyticsRoute: typeof ApiAnalyticsRoute
   ApiInquiryRoute: typeof ApiInquiryRoute
   WorkSlugRoute: typeof WorkSlugRoute
 }
@@ -66,6 +180,62 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/advisor': {
+      id: '/advisor'
+      path: '/advisor'
+      fullPath: '/advisor'
+      preLoaderRoute: typeof AdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system': {
+      id: '/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/samples': {
+      id: '/samples'
+      path: '/samples'
+      fullPath: '/samples'
+      preLoaderRoute: typeof SamplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/advisor': {
+      id: '/api/advisor'
+      path: '/api/advisor'
+      fullPath: '/api/advisor'
+      preLoaderRoute: typeof ApiAdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/advisor-metrics': {
+      id: '/api/advisor-metrics'
+      path: '/api/advisor-metrics'
+      fullPath: '/api/advisor-metrics'
+      preLoaderRoute: typeof ApiAdvisorMetricsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/analytics': {
+      id: '/api/analytics'
+      path: '/api/analytics'
+      fullPath: '/api/analytics'
+      preLoaderRoute: typeof ApiAnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/inquiry': {
@@ -87,6 +257,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdvisorRoute: AdvisorRoute,
+  DesignSystemRoute: DesignSystemRoute,
+  PrivacyRoute: PrivacyRoute,
+  ProjectsRoute: ProjectsRoute,
+  SamplesRoute: SamplesRoute,
+  ApiAdvisorRoute: ApiAdvisorRoute,
+  ApiAdvisorMetricsRoute: ApiAdvisorMetricsRoute,
+  ApiAnalyticsRoute: ApiAnalyticsRoute,
   ApiInquiryRoute: ApiInquiryRoute,
   WorkSlugRoute: WorkSlugRoute,
 }

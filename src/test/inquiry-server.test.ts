@@ -6,7 +6,9 @@ const config = {
   from: "Portfolio <inquiries@example.com>",
   to: "owner@example.com",
 };
-const input = () => ({
+const input = (issuedAt = Date.now()) => ({
+  issuedAt,
+  privacyConsent: true,
   requestId: crypto.randomUUID(),
   name: "Sample Reviewer",
   company: "Example Works",
@@ -143,11 +145,11 @@ describe("Inquiry server boundary", () => {
       now: () => stamp,
       fetcher: vi.fn<typeof fetch>().mockImplementation(async () => Response.json({ id: "id" })),
     });
-    for (let i = 0; i < 3; i++) expect((await handler(request(input()))).status).toBe(200);
-    const blocked = await handler(request(input()));
+    for (let i = 0; i < 3; i++) expect((await handler(request(input(stamp)))).status).toBe(200);
+    const blocked = await handler(request(input(stamp)));
     expect(blocked.status).toBe(429);
     expect(blocked.headers.get("Retry-After")).toBe("900");
     stamp += 15 * 60 * 1000 + 1;
-    expect((await handler(request(input()))).status).toBe(200);
+    expect((await handler(request(input(stamp)))).status).toBe(200);
   });
 });

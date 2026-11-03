@@ -1,11 +1,14 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { setAnalyticsChoice } from "@/lib/analytics";
 import { Contact } from "@/components/site/Contact";
 afterEach(() => {
   cleanup();
+  localStorage.clear();
   vi.unstubAllGlobals();
 });
 function complete() {
+  fireEvent.click(screen.getByRole("checkbox", { name: /I consent to using/ }));
   for (const [label, value] of [
     ["Name", "Sample Reviewer"],
     ["Company", "Example Works"],
@@ -89,5 +92,74 @@ describe("Configured inquiry UI", () => {
         expect.stringContaining("mailto:"),
       ),
     );
+  });
+  it("keeps local test success distinct and never counts it as a submitted lead", async () => {
+    const fetcher = vi.fn().mockImplementation(async (url: string, options?: RequestInit) => {
+      if (url === "/api/analytics") return Response.json({ ok: true });
+      return Response.json(
+        options?.method === "POST"
+          ? { ok: true, reference: "local-reference", testMode: true }
+          : { deliveryAvailable: true, bookingUrl: null, testMode: true },
+      );
+    });
+    vi.stubGlobal("fetch", fetcher);
+    setAnalyticsChoice(true);
+    render(<Contact />);
+    await screen.findByRole("button", { name: /Run local delivery test/ });
+    complete();
+    fireEvent.submit(screen.getByRole("form", { name: "Project inquiry" }));
+    await screen.findByText("Local test completed. No email was sent.");
+    expect(
+      screen.getByText("Local test completed. No email was sent.").closest("[role=status]"),
+    ).toHaveFocus();
+    expect(fetcher.mock.calls.filter((call) => call[0] === "/api/analytics")).toHaveLength(0);
+  });
+  it("counts provider acceptance once and never includes inquiry content in analytics", async () => {
+    const fetcher = vi.fn().mockImplementation(async (url: string, options?: RequestInit) => {
+      if (url === "/api/analytics") return Response.json({ ok: true });
+      return Response.json(
+        options?.method === "POST"
+          ? { ok: true, reference: "same-reference" }
+          : { deliveryAvailable: true, bookingUrl: "https://calendar.example/real" },
+      );
+    });
+    vi.stubGlobal("fetch", fetcher);
+    setAnalyticsChoice(true);
+    render(<Contact />);
+    await screen.findByRole("button", { name: /Send project inquiry/ });
+    complete();
+    for (let i = 0; i < 2; i++) {
+      fireEvent.submit(screen.getByRole("form", { name: "Project inquiry" }));
+      await screen.findByText("Your inquiry was accepted for email delivery.");
+    }
+    fireEvent.click(screen.getByRole("link", { name: /Book a 20-minute/ }));
+    const events = fetcher.mock.calls
+      .filter((call) => call[0] === "/api/analytics")
+      .map((call) => JSON.parse(String(call[1]?.body)));
+    expect(events).toEqual([{ event: "inquiry_submitted" }, { event: "booking_clicked" }]);
+    expect(screen.getByLabelText(/Phone number/)).not.toBeRequired();
+    expect(screen.getByLabelText(/Current workflow or system/)).not.toBeRequired();
+  });
+  it("refocuses the error summary when the same client error is submitted again", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(Response.json({ deliveryAvailable: false, bookingUrl: null })),
+    );
+    render(<Contact />);
+    await screen.findByRole("button", { name: /Prepare email draft/ });
+    complete();
+    fireEvent.change(screen.getByLabelText(/Phone number/), { target: { value: "abcdef" } });
+    const form = screen.getByRole("form", { name: "Project inquiry" });
+    fireEvent.submit(form);
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveFocus();
+    screen.getByRole("button", { name: /Prepare email draft/ }).focus();
+    fireEvent.submit(form);
+    await waitFor(() => expect(alert).toHaveFocus());
+    expect(screen.getByLabelText(/Phone number/)).toHaveAttribute(
+      "aria-describedby",
+      "error-phone",
+    );
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });

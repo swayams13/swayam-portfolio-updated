@@ -1,3 +1,6 @@
+import { referralAttribution, trackConversion } from "@/lib/analytics";
+import { advisorHandoff, HANDOFF_EVENT } from "@/lib/advisor";
+import { Footer } from "@/components/design-system";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { contactDetails, homepageCopy } from "@/lib/content";
 import {
@@ -8,18 +11,55 @@ import {
   type InquiryResult,
 } from "@/lib/inquiry";
 
-type Availability = { deliveryAvailable: boolean; bookingUrl: string | null };
+type Availability = { deliveryAvailable: boolean; bookingUrl: string | null; testMode?: boolean };
 export function Contact() {
+  const [challenge, setChallenge] = useState("");
+  const [industryValue, setIndustryValue] = useState("");
+  useEffect(() => {
+    const accept = (event: Event) => {
+      const parsed = advisorHandoff.safeParse((event as CustomEvent).detail);
+      if (!parsed.success) return;
+      if (pendingRef.current) {
+        event.preventDefault();
+        return;
+      }
+      setError("");
+      setFields({});
+      setReference("");
+      setDraft("");
+      setCopyStatus("");
+      setChallenge(parsed.data.challenge);
+      setIndustryValue(parsed.data.industry);
+    };
+    const chooseIndustry = (event: Event) => {
+      const value = (event as CustomEvent).detail;
+      if (!pendingRef.current && inquiryIndustries.some((industry) => industry === value)) {
+        setIndustryValue(value);
+        setReference("");
+        setDraft("");
+      }
+    };
+    window.addEventListener("inquiry-industry-choice", chooseIndustry);
+    window.addEventListener(HANDOFF_EVENT, accept);
+    return () => {
+      window.removeEventListener(HANDOFF_EVENT, accept);
+      window.removeEventListener("inquiry-industry-choice", chooseIndustry);
+    };
+  }, []);
   const [availability, setAvailability] = useState<Availability | null>(null);
   const [pending, setPending] = useState(false);
   const pendingRef = useRef(false);
   const [error, setError] = useState("");
+  const [submission, setSubmission] = useState(0);
   const [fields, setFields] = useState<Record<string, string>>({});
   const [reference, setReference] = useState("");
+  const [testSuccess, setTestSuccess] = useState(false);
+  const submitted = useRef(new Set<string>());
   const [draft, setDraft] = useState("");
   const [copyStatus, setCopyStatus] = useState("");
-  const attempt = useRef<{ fingerprint: string; id: string } | null>(null);
+  const attempt = useRef<{ fingerprint: string; id: string; issuedAt: number } | null>(null);
   const errorFocus = useRef<HTMLDivElement>(null);
+  const successFocus = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 8000);
@@ -34,7 +74,11 @@ export function Contact() {
         } catch {
           /* Email booking is always available. */
         }
-        setAvailability({ deliveryAvailable: data.deliveryAvailable === true, bookingUrl });
+        setAvailability({
+          deliveryAvailable: data.deliveryAvailable === true,
+          bookingUrl,
+          testMode: data.testMode === true,
+        });
       })
       .catch(() => setAvailability({ deliveryAvailable: false, bookingUrl: null }))
       .finally(() => clearTimeout(timer));
@@ -45,7 +89,10 @@ export function Contact() {
   }, []);
   useEffect(() => {
     if (error) errorFocus.current?.focus();
-  }, [error]);
+  }, [error, submission]);
+  useEffect(() => {
+    if (reference) successFocus.current?.focus();
+  }, [reference]);
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (pendingRef.current) return;
@@ -54,6 +101,7 @@ export function Contact() {
       form.reportValidity();
       return;
     }
+    setSubmission((value) => value + 1);
     const data = new FormData(form);
     const values = {
       name: String(data.get("name") ?? ""),
@@ -65,11 +113,18 @@ export function Contact() {
       budget: String(data.get("budget") ?? ""),
       method: String(data.get("method") ?? "Email"),
       website: String(data.get("website") ?? ""),
+      phone: String(data.get("phone") ?? ""),
+      privacyConsent: data.get("privacyConsent") === "on",
+      attribution: referralAttribution(),
     };
     const fingerprint = JSON.stringify(values);
     if (attempt.current?.fingerprint !== fingerprint)
-      attempt.current = { fingerprint, id: crypto.randomUUID() };
-    const parsed = inquirySchema.safeParse({ ...values, requestId: attempt.current!.id });
+      attempt.current = { fingerprint, id: crypto.randomUUID(), issuedAt: Date.now() };
+    const parsed = inquirySchema.safeParse({
+      ...values,
+      requestId: attempt.current!.id,
+      issuedAt: attempt.current!.issuedAt,
+    });
     setError("");
     setFields({});
     setReference("");
@@ -99,9 +154,14 @@ export function Contact() {
         signal: AbortSignal.timeout(15000),
       });
       const result = (await response.json()) as InquiryResult;
-      if (response.ok && result.ok && typeof result.reference === "string")
+      if (response.ok && result.ok && typeof result.reference === "string") {
         setReference(result.reference);
-      else if (!result.ok) {
+        setTestSuccess(result.testMode === true);
+        if (!result.testMode && !submitted.current.has(result.reference)) {
+          submitted.current.add(result.reference);
+          trackConversion("inquiry_submitted");
+        }
+      } else if (!result.ok) {
         setError(
           typeof result.message === "string"
             ? result.message
@@ -160,6 +220,9 @@ export function Contact() {
               <a
                 className="text-link"
                 href={bookingHref}
+                onClick={() => {
+                  if (availability?.bookingUrl) trackConversion("booking_clicked");
+                }}
                 {...(availability?.bookingUrl
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
@@ -207,11 +270,18 @@ export function Contact() {
               </div>
             )}
             {reference && (
-              <div className="inquiry-success" role="status">
-                <p>Your inquiry was accepted for email delivery.</p>
+              <div ref={successFocus} className="inquiry-success" role="status" tabIndex={-1}>
+                <p>
+                  {testSuccess
+                    ? "Local test completed. No email was sent."
+                    : "Your inquiry was accepted for email delivery."}
+                </p>
                 <p className="caption">
-                  Reference: {reference}. This confirms provider acceptance, not inbox receipt. If
-                  you need to follow up, email me directly.
+                  Reference: {reference}.{" "}
+                  {testSuccess
+                    ? "This is a simulation, not delivery."
+                    : "This confirms provider acceptance, not inbox receipt."}{" "}
+                  If you need to follow up, email me directly.
                 </p>
               </div>
             )}
@@ -255,7 +325,13 @@ export function Contact() {
               </label>
               <label>
                 Industry
-                <select name="industry" required defaultValue="" {...fieldA11y("industry")}>
+                <select
+                  name="industry"
+                  required
+                  value={industryValue}
+                  onChange={(event) => setIndustryValue(event.target.value)}
+                  {...fieldA11y("industry")}
+                >
                   <option value="" disabled>
                     Select your industry
                   </option>
@@ -269,6 +345,8 @@ export function Contact() {
                 Business problem or proposed project
                 <textarea
                   name="challenge"
+                  value={challenge}
+                  onChange={(event) => setChallenge(event.target.value)}
                   required
                   rows={4}
                   maxLength={2000}
@@ -278,7 +356,7 @@ export function Contact() {
                 {fieldError("challenge")}
               </label>
               <label>
-                Current workflow or system
+                Current workflow or system <span className="optional">(optional)</span>
                 <textarea
                   name="workflow"
                   rows={2}
@@ -309,6 +387,32 @@ export function Contact() {
                   {fieldError("method")}
                 </label>
               </div>
+              <label>
+                Phone number <span className="optional">(optional)</span>
+                <input
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  maxLength={40}
+                  {...fieldA11y("phone")}
+                />
+                {fieldError("phone")}
+              </label>
+              <label className="inquiry-consent">
+                <input
+                  name="privacyConsent"
+                  type="checkbox"
+                  required
+                  {...fieldA11y("privacyConsent")}
+                />
+                I consent to using these details to assess and respond to this inquiry. No marketing
+                subscription is created.
+              </label>
+              {fieldError("privacyConsent")}
+              <p className="caption">
+                <a href="/privacy">Privacy and data handling ↗</a>
+                {availability?.testMode && " Local test mode: this form will not send email."}
+              </p>
               <div className="inquiry-trap" aria-hidden="true">
                 <label>
                   Website
@@ -324,7 +428,9 @@ export function Contact() {
                 {pending
                   ? "Sending inquiry…"
                   : availability?.deliveryAvailable
-                    ? "Send project inquiry ↗"
+                    ? availability.testMode
+                      ? "Run local delivery test ↗"
+                      : "Send project inquiry ↗"
                     : "Prepare email draft ↗"}
               </button>
             </fieldset>
@@ -353,15 +459,7 @@ export function Contact() {
             </p>
           </div>
         )}
-        <footer className="site-footer">
-          <a className="wordmark" href="#top">
-            Swayam Singh<span className="accent">.</span>
-          </a>
-          <p className="label">Industry → Intelligence</p>
-          <a className="text-link" href="#top">
-            Back to top ↑
-          </a>
-        </footer>
+        <Footer />
       </div>
     </section>
   );

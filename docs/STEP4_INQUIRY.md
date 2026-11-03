@@ -1,3 +1,5 @@
+> Historical phase report. For current delivery activation, shared limits, analytics and SEO, follow [Phase 6](PHASE6_CONVERSION.md).
+
 # Step 4 — Inquiry delivery integration
 
 1 November 2026. Integration implemented locally; **live Resend sending and inbox receipt are not yet verified**. No Resend credentials or verified sender were supplied. No account was created, no live email was sent, and nothing was deployed.

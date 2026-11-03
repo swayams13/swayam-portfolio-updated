@@ -1,3 +1,4 @@
+import { ProjectStatusBadge } from "@/components/design-system";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import type { CapState, Project, Status } from "@/lib/content";
@@ -11,12 +12,7 @@ export function StatusTag({
   className?: string;
   label?: string | undefined;
 }) {
-  return (
-    <span className={`label inline-flex items-center gap-2 ${className}`}>
-      <span aria-hidden className="size-1.5 shrink-0 bg-copper" />
-      {label ?? status.join(" / ")}
-    </span>
-  );
+  return <ProjectStatusBadge status={status} label={label} className={className} />;
 }
 
 /** Number · industry · status, the one metadata line every showcase opens with. */

@@ -1,0 +1,75 @@
+/* Editorial Noir: black-led surfaces, cream type and restrained copper accents. */
+:root {
+  --color-bg: #090909;
+  --color-cream: #f6f1ec;
+  --color-dark: #0d0d0d;
+  --color-dark-surface: #181716;
+  --color-copper: #ad633d;
+  --color-copper-highlight: #d5a17b;
+  --color-copper-shadow: #623a2a;
+  --color-text: #f6f1ec;
+  --color-text-inverse: #f8f4f0;
+  --gradient-industrial: linear-gradient(110deg, #0d0d0d 0%, #171412 72%, #2b1d16 100%);
+  --gradient-warm: linear-gradient(110deg, #0b0b0b 0%, #11100f 70%, #1b1511 100%);
+  --gradient-copper: linear-gradient(110deg, #623a2a 0%, #ad633d 50%, #d5a17b 100%);
+  --font-sans: "Manrope", Arial, sans-serif;
+  --font-display: "Space Grotesk", Arial, sans-serif;
+  --font-mono: "Space Grotesk", Arial, sans-serif;
+  --font-editorial: "Instrument Serif", Georgia, serif;
+  --text-small: 0.8125rem;
+  --text-body: 1rem;
+  --text-lead: clamp(1.125rem, 1.6vw, 1.375rem);
+  --text-heading: clamp(2.25rem, 4.5vw, 4.5rem);
+  --text-editorial: clamp(3.5rem, 8vw, 8rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-section: clamp(4rem, 8vw, 8rem);
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space: var(--space-section);
+  --shadow-soft: 0 12px 40px #00000033;
+  --shadow-raised: 0 24px 64px #00000080;
+  --border-fine: 1px solid var(--border);
+  --radius: 3px;
+  --destructive: #f2a299;
+  --destructive-foreground: #fff;
+}
+ :root,
+.ds-tone-light,
+.ds-tone-warm,
+.dark,
+.ds-tone-dark {
+  color-scheme: dark;
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
+  --card: var(--color-dark-surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: var(--color-cream);
+  --primary-foreground: #141414;
+  --secondary: #29221d;
+  --secondary-foreground: var(--foreground);
+  --muted: #1b1917;
+  --muted-foreground: #bdb3a9;
+  --accent: #29221d;
+  --accent-foreground: var(--foreground);
+  --border: #f6f1ec26;
+  --input: #8f7b6a;
+  --ring: var(--color-copper-highlight);
+  --copper: var(--color-copper-highlight);
+  --steel: #bdb3a9;
+  --line: #f6f1ec26;
+  --line-dark: #f6f1ec26;
+  --charcoal: var(--color-dark);
+  --graphite: var(--color-dark-surface);
+  --paper: var(--color-cream);
+}
+.ds-tone-dark {
+  --background: var(--color-dark);
+}

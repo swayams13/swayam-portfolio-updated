@@ -1,0 +1,265 @@
+/* CSS perspective exhibition. Layout is stable; only transform/opacity animate. */
+.exhibition {
+  --exhibit-duration: 440ms;
+}
+.exhibit-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  perspective: 1600px;
+  overflow: clip;
+  padding: 28px 0 36px;
+  touch-action: pan-y pinch-zoom;
+}
+.exhibit-position {
+  grid-area: 1 / 1;
+  width: 78%;
+  justify-self: center;
+  min-width: 0;
+  transform: translateX(calc(var(--offset) * 91%)) translateZ(calc(var(--depth) * -120px))
+    rotateY(calc(var(--turn) * 9deg));
+  opacity: 0.55;
+  transition:
+    transform var(--exhibit-duration) cubic-bezier(0.22, 0.68, 0.24, 1),
+    opacity var(--exhibit-duration) ease;
+  position: relative;
+}
+.exhibit-position[data-active="true"] {
+  transform: translateX(0) translateZ(0) rotateY(0);
+  opacity: 1;
+}
+.exhibit-position[data-distance="2"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.exhibit-card {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  height: 100%;
+  background: var(--color-dark-surface);
+  border: 1px solid #f8f4f033;
+  box-shadow: 0 20px 50px #0003;
+}
+.exhibit-neighbor {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.exhibit-media {
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-right: var(--border-fine);
+  background: #1b1b1b;
+}
+.exhibit-media img,
+.exhibit-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.exhibit-media figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: #141414;
+  color: var(--muted-foreground);
+  font: 400 0.6875rem/1.5 var(--font-display);
+  border-top: var(--border-fine);
+}
+.exhibit-poster {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(125deg, #1b1b1b 30%, #2d211c);
+}
+.poster-rule {
+  height: 1px;
+  width: 52px;
+  background: var(--gradient-copper);
+  margin-bottom: 1.5rem;
+}
+.poster-number {
+  font: 400 clamp(4rem, 7vw, 7rem)/1 var(--font-editorial);
+  color: var(--copper);
+}
+.exhibit-poster > p {
+  font: 400 clamp(1.5rem, 2.5vw, 2.75rem)/1.1 var(--font-editorial);
+  margin-block: 1.5rem;
+  max-width: 14ch;
+}
+.poster-kind {
+  font: 400 0.6875rem/1.5 var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 3rem;
+}
+.exhibit-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 1rem;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  min-width: 0;
+}
+.exhibit-copy h3 {
+  width: 100%;
+  font: 500 clamp(1.75rem, 2.6vw, 2.5rem)/1.12 var(--font-display);
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+.exhibit-copy > p {
+  font-size: 0.9375rem;
+  max-width: 42ch;
+}
+.exhibit-copy .ds-badge {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.exhibit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.exhibit-actions .ds-button {
+  gap: 0.75rem;
+}
+.exhibit-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.exhibit-indicators button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--input);
+  color: var(--muted-foreground);
+  font: 500 0.8125rem var(--font-display);
+}
+.exhibit-indicators button[aria-current="true"] {
+  color: var(--copper);
+  border-bottom: 2px solid var(--copper);
+}
+.exhibit-indicators button:hover {
+  color: var(--foreground);
+  background: var(--secondary);
+}
+.exhibition:focus-visible {
+  outline-offset: 6px;
+}
+.all-projects-link {
+  margin-left: 2rem;
+}
+.project-index {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.project-index article {
+  min-width: 0;
+  padding: 2rem;
+  border: var(--border-fine);
+}
+.project-index h2 {
+  font: 500 1.75rem/1.15 var(--font-display);
+  margin-block: 1.5rem;
+}
+.project-index p {
+  margin-block: 1rem;
+}
+@media (max-width: 1023px) {
+  .exhibit-position {
+    width: 82%;
+  }
+  .exhibit-card {
+    grid-template-columns: 1fr;
+  }
+  .exhibit-media {
+    aspect-ratio: 16 / 9;
+    border-right: 0;
+    border-bottom: var(--border-fine);
+  }
+  .exhibit-poster {
+    padding: 1.5rem 2rem 3.5rem;
+  }
+  .poster-number {
+    font-size: 3rem;
+  }
+  .exhibit-poster > p {
+    font-size: 1.75rem;
+    margin-block: 0.75rem;
+    max-width: none;
+  }
+  .poster-kind {
+    display: none;
+  }
+  .poster-rule {
+    margin-bottom: 0.75rem;
+  }
+  .exhibit-copy {
+    align-content: start;
+  }
+}
+@media (max-width: 767px) {
+  .exhibit-stage {
+    perspective: none;
+    padding: 16px 0;
+  }
+  .exhibit-position {
+    width: 100%;
+    transform: translateX(calc(var(--offset) * (100% + 24px)));
+    opacity: 0;
+  }
+  .exhibit-position[data-active="true"] {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .exhibit-media {
+    aspect-ratio: 4 / 3;
+  }
+  .exhibit-copy {
+    padding: 1.5rem;
+  }
+  .exhibit-copy h3 {
+    font-size: 1.75rem;
+  }
+  .exhibit-position[data-distance="1"] {
+    pointer-events: none;
+  }
+  .all-projects-link {
+    margin-left: 0;
+  }
+  .project-index {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exhibit-stage {
+    perspective: none;
+  }
+  .exhibit-position {
+    transform: none;
+    transition: none;
+    visibility: hidden;
+  }
+  .exhibit-position[data-active="true"] {
+    transform: none;
+    visibility: visible;
+  }
+  .exhibit-neighbor {
+    display: none;
+  }
+}

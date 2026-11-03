@@ -9,6 +9,10 @@ import { pathToFileURL } from "node:url";
 const root = resolve(".vercel/output/static");
 const entry = resolve(".vercel/output/functions/__server.func/index.mjs");
 const { default: app } = await import(pathToFileURL(entry).href);
+const configuration = JSON.parse(await readFile(resolve(".vercel/output/config.json"), "utf8"));
+const headerRoutes = configuration.routes.filter(
+  (route) => route.headers && route.src && route.continue,
+);
 const port = Number(process.env.PORT || 4175);
 const origin = `http://127.0.0.1:${port}`;
 const types = {
@@ -20,6 +24,9 @@ const types = {
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
   ".txt": "text/plain",
+  ".xml": "application/xml",
+  ".vtt": "text/vtt",
+  ".mp4": "video/mp4",
   ".woff2": "font/woff2",
   ".webp": "image/webp",
 };
@@ -27,6 +34,13 @@ const types = {
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url, origin);
+    for (const route of headerRoutes) {
+      if (new RegExp(`^${route.src}$`).test(url.pathname)) {
+        for (const [key, value] of Object.entries(route.headers)) res.setHeader(key, value);
+      }
+    }
+    if (url.pathname.startsWith("/assets/"))
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     const file = resolve(root, `.${decodeURIComponent(url.pathname)}`);
     if (file !== root && !file.startsWith(root + sep)) {
       res.writeHead(400).end("Invalid path");

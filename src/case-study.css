@@ -1,0 +1,292 @@
+/* Evidence-led editorial case studies. No fixed-height story text or autoplay. */
+.story-hero {
+  padding-block: clamp(3rem, 6vw, 6rem) 0;
+}
+.story-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 2rem;
+}
+.story-meta .ds-eyebrow {
+  margin: 0;
+  max-width: 60ch;
+}
+.story-hero .ds-editorial {
+  max-width: 18ch;
+  font-size: clamp(3.25rem, 7vw, 7.5rem);
+}
+.story-deck {
+  max-width: 62ch;
+  font-size: var(--text-lead);
+  margin-top: 2rem;
+}
+.story-maturity {
+  max-width: 80ch;
+  margin-top: 1.5rem;
+}
+.story-product {
+  margin: 3rem 0 0;
+  background: var(--color-dark);
+  color: var(--color-text-inverse);
+  border: var(--border-fine);
+}
+.story-product img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.story-product figcaption {
+  padding: 1.25rem 1.5rem;
+  font-size: 0.8125rem;
+}
+.story-preview-empty {
+  min-height: clamp(300px, 38vw, 520px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 5rem);
+  background: var(--gradient-industrial);
+}
+.story-preview-empty .ds-eyebrow {
+  /* Small text stays above 4.5:1 even over the copper end of the gradient. */
+  color: var(--color-text-inverse);
+}
+.story-preview-empty > p {
+  font: 400 clamp(2.25rem, 5vw, 5rem)/1.05 var(--font-editorial);
+  max-width: 20ch;
+}
+.story-preview-empty figcaption {
+  padding: 2rem 0 0;
+  color: #d5c9c0;
+}
+.story-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  padding-block: 1.5rem;
+  border-bottom: var(--border-fine);
+}
+.story-nav a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8125rem;
+  text-decoration: underline;
+}
+.story-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  padding-block: clamp(3rem, 6vw, 6rem);
+  border-bottom: var(--border-fine);
+  scroll-margin-top: 100px;
+}
+.story-section > h2 {
+  font: 500 clamp(1.25rem, 2vw, 1.75rem)/1.2 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.story-section > div {
+  min-width: 0;
+}
+.story-section p + p {
+  margin-top: 1.25rem;
+}
+.story-lead {
+  font-size: clamp(1.125rem, 1.7vw, 1.375rem);
+  max-width: 62ch;
+}
+.story-workflow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  margin-top: 2rem;
+}
+.story-workflow li {
+  padding: 0.75rem 1rem;
+  border: var(--border-fine);
+  font: 400 0.8125rem/1.5 var(--font-display);
+}
+.story-workflow li span {
+  color: var(--copper);
+  margin-right: 0.75rem;
+}
+.story-recording video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: var(--color-dark);
+  display: block;
+}
+.story-empty {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: var(--border-fine);
+  background: var(--card);
+}
+.story-empty h3 {
+  font: 500 1.25rem var(--font-display);
+  margin-bottom: 1rem;
+}
+.story-empty p {
+  color: var(--muted-foreground);
+  max-width: 60ch;
+  font-size: 0.9375rem;
+}
+.story-disclosure {
+  border-block: var(--border-fine);
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+.story-disclosure summary {
+  min-height: 44px;
+  padding-block: 0.5rem;
+  font: 500 0.9375rem var(--font-display);
+}
+.story-disclosure[open] > div {
+  padding-block: 1rem;
+}
+.story-media-heading {
+  font: 500 1.125rem var(--font-display);
+  margin-block: 2.5rem 1.25rem;
+}
+.story-screenshots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.story-screenshots figure {
+  min-width: 0;
+}
+.story-screenshots button {
+  width: 100%;
+  text-align: left;
+  border: var(--border-fine);
+  background: var(--card);
+}
+.story-screenshots button img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.story-screenshots button span {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+}
+.story-screenshots figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+.story-sample {
+  border-left: 2px solid var(--copper);
+  padding-left: 1.5rem;
+  margin-top: 2.5rem;
+  font-size: 0.875rem;
+}
+.story-capabilities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.story-capability-group {
+  border-top: var(--border-fine);
+  padding-top: 1.25rem;
+}
+.story-capability-group h3 {
+  font: 500 1rem/1.4 var(--font-display);
+  margin-bottom: 1rem;
+}
+.story-capability-group ul,
+.story-limitations {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.story-capability-group li {
+  font-size: 0.875rem;
+  margin-block: 0.5rem;
+}
+.story-limitations li {
+  margin-bottom: 1rem;
+}
+.story-related {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+.story-related > a {
+  border-top: var(--border-fine);
+  padding-top: 1.5rem;
+}
+.story-related h3 {
+  font: 500 1.375rem/1.2 var(--font-display);
+  margin-block: 1.25rem;
+}
+.story-related p {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+.story-cta p:not(.ds-eyebrow) {
+  max-width: 62ch;
+  margin-block: 2rem;
+}
+.story-cta .text-link {
+  margin: 1rem 2rem;
+}
+.story-lightbox {
+  width: min(94vw, 1440px);
+  max-width: 94vw;
+  max-height: 94svh;
+  margin: auto;
+  padding: 1.5rem;
+}
+.story-lightbox figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 65svh;
+  object-fit: contain;
+  margin: auto;
+}
+.story-lightbox figcaption {
+  font-size: 0.8125rem;
+  margin-top: 1rem;
+}
+.story-lightbox-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-block: 0.5rem 1rem;
+}
+.story-lightbox-controls button {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border: var(--border-fine);
+}
+@media (max-width: 767px) {
+  .story-section {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .story-hero .ds-editorial {
+    font-size: clamp(2.75rem, 11vw, 5rem);
+    overflow-wrap: anywhere;
+  }
+  .story-capabilities,
+  .story-related,
+  .story-screenshots {
+    grid-template-columns: 1fr;
+  }
+  .story-cta .text-link {
+    margin-left: 0;
+  }
+  .story-lightbox {
+    padding: 1rem;
+  }
+}

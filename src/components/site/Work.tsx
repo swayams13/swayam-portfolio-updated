@@ -1,3 +1,4 @@
+import { ProjectCardShell } from "@/components/design-system";
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { EvidenceLabel } from "./ProjectEvidence";
@@ -9,21 +10,23 @@ import { Engineering } from "./work/Engineering";
 import { Tender } from "./work/Tender";
 import { BOQ } from "./work/BOQ";
 const demos = [MOS, Production, Engineering, Tender, BOQ];
-export function Work() {
+export function Work({ sectionId = "work" }: { sectionId?: string }) {
   const hash = useLocation({ select: (location) => location.hash });
   const briefs = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!hash) return;
     const target = document.getElementById(hash);
     if (!target || !briefs.current?.contains(target)) return;
-    const disclosure = target.closest("details");
-    if (!disclosure) return;
-    disclosure.open = true;
+    let ancestor: HTMLElement | null = target;
+    while (ancestor) {
+      if (ancestor instanceof HTMLDetailsElement) ancestor.open = true;
+      ancestor = ancestor.parentElement;
+    }
     const frame = requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
     return () => cancelAnimationFrame(frame);
   }, [hash]);
   return (
-    <section id="work" aria-labelledby="work-title">
+    <section className="dark ds-gallery" id={sectionId} aria-labelledby="work-title">
       <div className="shell work-heading">
         <div>
           <h2 id="work-title">
@@ -40,7 +43,7 @@ export function Work() {
         {flagships.map((p, i) => {
           const Demo = demos[i]!;
           return (
-            <article
+            <ProjectCardShell
               key={p.slug}
               id={p.slug}
               className={`work-brief work-brief-${i + 1}`}
@@ -62,7 +65,7 @@ export function Work() {
                     <Link to="/work/$slug" params={{ slug: p.slug }} className="text-link">
                       Read the project brief ↗
                     </Link>
-                    <a href="#contact" className="text-link">
+                    <a href="/#contact" className="text-link">
                       Discuss a similar workflow ↗
                     </a>
                   </div>
@@ -75,7 +78,7 @@ export function Work() {
                 </summary>
                 <Demo />
               </details>
-            </article>
+            </ProjectCardShell>
           );
         })}
       </div>
